@@ -170,7 +170,13 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
         <button class="cur-btn" onclick="setCur(this,'USD')">$ Долл</button>
         <button class="cur-btn" onclick="setCur(this,'GBP')">£ Фунт</button>
       </div>
-      <div class="amt-hint" id="rateHint">Курс ПриватБанку применится автоматически</div>
+      <div class="amt-hint" id="rateHint">Сумма в гривнах</div>
+      <div id="manualRateRow" style="display:none;align-items:center;gap:8px;justify-content:center;margin-bottom:14px">
+        <span id="manualRateLbl" style="font-size:14px;color:var(--muted)">1 € =</span>
+        <input type="number" id="manualRate" placeholder="введи курс" inputmode="decimal"
+          style="width:130px;border:1.5px solid var(--blue);border-radius:10px;padding:8px 12px;font-size:16px;font-weight:600;outline:none;text-align:center;color:var(--text)">
+        <span style="font-size:14px;color:var(--muted)">грн</span>
+      </div>
       <div class="fsec">Категория</div>
       <div class="cat-list" id="catListEl"></div>
       <div class="fsec">Счёт</div>
@@ -435,24 +441,19 @@ function setCur(el, cur) {
 
 function updateRateHint() {
   var hint = document.getElementById('rateHint');
-  if (selCur === 'UAH') { hint.textContent = 'Курс ПриватБанку применится автоматически'; return; }
-  hint.textContent = 'Загружаем курс...';
-  getRate(selCur).then(function(rate) {
+  var rateRow = document.getElementById('manualRateRow');
+  if (selCur === 'UAH') {
+    hint.style.display = 'block';
+    hint.textContent = 'Сумма в гривнах';
+    if (rateRow) rateRow.style.display = 'none';
+  } else {
     var syms = {EUR:'€', USD:'$', GBP:'£'};
-    hint.textContent = rate ? '1 ' + syms[selCur] + ' = ' + rate + ' грн (ПриватБанк)' : 'Не удалось загрузить курс';
-  });
-}
-
-function getRate(cur) {
-  if (rates[cur]) return Promise.resolve(rates[cur]);
-  return fetch('https://api.privatbank.ua/p24api/pubinfo?exchange&json&coursid=5')
-    .then(function(r){ return r.json(); })
-    .then(function(d) {
-      var found = d.find(function(x){ return x.ccy === cur; });
-      if (found) { rates[cur] = parseFloat(found.sale); return rates[cur]; }
-      return null;
-    })
-    .catch(function(){ return null; });
+    hint.style.display = 'none';
+    if (rateRow) {
+      rateRow.style.display = 'flex';
+      document.getElementById('manualRateLbl').textContent = '1 ' + syms[selCur] + ' =';
+    }
+  }
 }
 
 function addCat() {
@@ -493,12 +494,12 @@ function saveTx() {
     });
   }
 
-  if (selCur === 'UAH') { doSave(amount); }
-  else {
-    getRate(selCur).then(function(rate) {
-      if (!rate) { toast('Не удалось получить курс'); return; }
-      doSave(Math.round(amount * rate * 100) / 100);
-    });
+  if (selCur === 'UAH') {
+    doSave(amount);
+  } else {
+    var rate = parseFloat(document.getElementById('manualRate').value);
+    if (!rate || rate <= 0) { toast('⚠️ Введи курс валюты'); return; }
+    doSave(Math.round(amount * rate * 100) / 100);
   }
 }
 
