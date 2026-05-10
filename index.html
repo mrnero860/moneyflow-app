@@ -359,16 +359,26 @@ async function loadHome() {
 
     <div class="section-title">Последние операции</div>
     <div class="tx-list">
-      ${(txs || []).length === 0 ? '<div class="empty"><i class="ti ti-receipt-off"></i>Транзакций пока нет</div>' :
-        (txs || []).map(t => `
-        <div class="tx-item">
-          <div class="tx-icon ${t.type === 'expense' ? 'r' : 'g'}">${t.categories?.emoji || '📦'}</div>
-          <div class="tx-info">
-            <div class="tx-name">${t.categories?.name || '—'}</div>
-            <div class="tx-meta">${t.accounts?.emoji || ''} ${t.accounts?.name || '—'} · ${fmtDate(t.created_at)}</div>
-          </div>
-          <div class="tx-amount ${t.type === 'expense' ? 'neg' : 'pos'}">${t.type === 'expense' ? '-' : '+'}${fmt(t.amount)}</div>
-        </div>`).join('')}
+      \${(txs || []).length === 0 ? '<div class="empty"><i class="ti ti-receipt-off"></i>Транзакций пока нет</div>' :
+        (txs || []).map(t => {
+  const icon = t.type === 'expense' ? 'r' : 'g';
+  const sign = t.type === 'expense' ? '-' : '+';
+  const amtClass = t.type === 'expense' ? 'neg' : 'pos';
+  return '<div class="tx-item">' +
+    '<div class="tx-icon ' + icon + '">' + (t.categories?.emoji || '📦') + '</div>' +
+    '<div class="tx-info">' +
+      '<div class="tx-name">' + (t.categories?.name || '—') + '</div>' +
+      '<div class="tx-meta">' + (t.accounts?.emoji || '') + ' ' + (t.accounts?.name || '—') + ' · ' + fmtDate(t.created_at) + '</div>' +
+    '</div>' +
+    '<div style="display:flex;align-items:center;gap:10px">' +
+      '<div class="tx-amount ' + amtClass + '">' + sign + fmt(t.amount) + '</div>' +
+      '<button onclick="deleteTx(' + t.id + ',' + t.account_id + ',' + t.amount + ',\'' + t.type + '\')" ' +
+        'style="background:#FFF0F0;border:none;border-radius:8px;width:30px;height:30px;cursor:pointer;color:var(--red);display:flex;align-items:center;justify-content:center;flex-shrink:0">' +
+        '<i class="ti ti-trash" style="font-size:15px"></i>' +
+      '</button>' +
+    '</div>' +
+  '</div>';
+}).join('')
     </div>
   `;
 }
@@ -814,6 +824,34 @@ async function confirmDistribute(surplus) {
   closeModal();
   showToast(`✅ ${fmt(total)} распределено по целям!`);
   loadSavings();
+}
+
+// ─── УДАЛЕНИЕ ТРАНЗАКЦИИ ─────────────────────────────────
+async function deleteTx(txId, accId, amount, type) {
+  const ok = confirm('Удалить эту транзакцию?');
+  if (!ok) return;
+
+  // Получаем текущий баланс счёта
+  const { data: acc } = await sb.from('accounts').select('balance').eq('id', accId).single();
+  if (!acc) { showToast('Ошибка: счёт не найден'); return; }
+
+  // Разворачиваем изменение баланса
+  let newBalance;
+  if (type === 'expense') {
+    newBalance = Number(acc.balance) + amount; // Расход был: возвращаем деньги
+  } else if (type === 'income') {
+    newBalance = Number(acc.balance) - amount; // Доход был: убираем деньги
+  } else {
+    newBalance = Number(acc.balance); // savings_in/out — не трогаем баланс счёта
+  }
+
+  await Promise.all([
+    sb.from('transactions').delete().eq('id', txId),
+    sb.from('accounts').update({ balance: newBalance }).eq('id', accId)
+  ]);
+
+  showToast('🗑 Транзакция удалена');
+  loadHome();
 }
 
 // ─── INIT ────────────────────────────────────────────────
