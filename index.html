@@ -446,15 +446,20 @@ async function updateRateHint() {
   hint.textContent = 'Загружаем курс НБУ...';
   const rate = await getNbuRate(selectedCur);
   const syms = { EUR: '€', USD: '$', GBP: '£' };
-  hint.textContent = rate ? `1 ${syms[selectedCur]} = ${rate} грн (курс НБУ)` : 'Не удалось загрузить курс';
+  hint.textContent = rate ? `1 ${syms[selectedCur]} = ${rate} грн (курс ПриватБанку)` : 'Не удалось загрузить курс';
 }
 
 async function getNbuRate(cur) {
   if (nbuRates[cur]) return nbuRates[cur];
   try {
-    const r = await fetch(`https://bank.gov.ua/NBU_Exchange/exchange_site?valcode=${cur}&sort=exchangedate&order=desc&json`);
+    const r = await fetch('https://api.privatbank.ua/p24api/pubinfo?exchange&json&coursid=5');
     const d = await r.json();
-    if (d && d[0]) { nbuRates[cur] = d[0].rate; return d[0].rate; }
+    const found = d.find(x => x.ccy === cur);
+    if (found) {
+      const rate = parseFloat(found.sale);
+      nbuRates[cur] = rate;
+      return rate;
+    }
   } catch(e) {}
   return null;
 }
