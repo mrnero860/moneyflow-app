@@ -251,8 +251,27 @@ const sb = createClient(
   'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhwbG1vd2RhcW14ZmVmZXppcnZ5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg0MDM0NzEsImV4cCI6MjA5Mzk3OTQ3MX0.sxF8EJyCS32jrcKGbMEvK0YdtXk80twifnx3qUdjLWU'
 );
 
-// ─── TELEGRAM ────────────────────────────────────────────
+// ─── TELEGRAM + ЗАЩИТА ───────────────────────────────────
 const tg = window.Telegram?.WebApp;
+const ALLOWED_ID = 288578366; // Твой Telegram ID
+
+function checkAuth() {
+  const userId = tg?.initDataUnsafe?.user?.id;
+  if (userId !== ALLOWED_ID) {
+    document.body.innerHTML = `
+      <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;
+                  height:100vh;padding:32px;text-align:center;font-family:-apple-system,sans-serif;background:#f2f2f7">
+        <div style="font-size:72px;margin-bottom:24px">🔒</div>
+        <div style="font-size:22px;font-weight:700;margin-bottom:12px;color:#1a1a2e">Доступ закрыт</div>
+        <div style="font-size:15px;color:#8e8e93;line-height:1.6">
+          Это личное приложение.<br>Открой его из своего Telegram.
+        </div>
+      </div>`;
+    return false;
+  }
+  return true;
+}
+
 if (tg) { tg.ready(); tg.expand(); }
 
 // ─── STATE ───────────────────────────────────────────────
@@ -551,16 +570,42 @@ async function loadSavings() {
   const { data: goals } = await sb.from('savings_goals').select('*').order('created_at');
   const totalSaved = (goals || []).reduce((s, g) => s + Number(g.current_amount), 0);
 
+  // Считаем остаток за текущий месяц
+  const now = new Date();
+  const monthStart = new Date(now.getFullYear(), now.getMonth(), 1).toISOString();
+  const { data: monthTxs } = await sb.from('transactions')
+    .select('type,amount').gte('created_at', monthStart)
+    .in('type', ['income','expense']);
+  const monthIncome = (monthTxs||[]).filter(t=>t.type==='income').reduce((s,t)=>s+Number(t.amount),0);
+  const monthExpense = (monthTxs||[]).filter(t=>t.type==='expense').reduce((s,t)=>s+Number(t.amount),0);
+  const surplus = monthIncome - monthExpense;
+
   el.innerHTML = `
     <div class="savings-hero">
       <div class="savings-hero-label">Всего накоплено</div>
       <div class="savings-hero-amount">${fmt(totalSaved)}</div>
-      <div class="savings-hero-sub">Активных целей: ${(goals || []).length}</div>
+      <div class="savings-hero-sub">Активных целей: ${(goals||[]).length}</div>
     </div>
+
+    <div class="card" style="margin-bottom:16px;border:2px solid ${surplus>=0?'#34C759':'#FF3B30'}20">
+      <div class="section-title">💡 Остаток за ${now.toLocaleDateString('ru-RU',{month:'long'})}</div>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+        <div>
+          <div style="font-size:12px;color:var(--muted)">Доходы − Расходы</div>
+          <div style="font-size:22px;font-weight:700;color:${surplus>=0?'var(--green)':'var(--red)'}">
+            ${surplus>=0?'+':''}${fmt(surplus)}
+          </div>
+        </div>
+        ${surplus>0?`<button onclick="closeMonth(${surplus})" style="background:var(--purple);color:#fff;border:none;border-radius:12px;padding:10px 16px;font-size:13px;font-weight:600;cursor:pointer">Распределить →</button>`:''}
+      </div>
+      <div style="font-size:12px;color:var(--muted)">${surplus>0?'Разложи остаток по целям':'Расходы превышают доходы в этом месяце'}</div>
+    </div>
+
     <div class="section-title">Мои цели</div>
-    ${(goals || []).length === 0 ? '<div class="empty"><i class="ti ti-piggy-bank"></i>Нет целей. Добавь первую!</div>' :
-      (goals || []).map(g => {
-        const pct = g.target_amount > 0 ? Math.min(100, Math.round(g.current_amount / g.target_amount * 100)) : 0;
+    ${(goals||[]).length===0?'<div class="empty"><i class="ti ti-piggy-bank"></i>Нет целей. Добавь первую!</div>':
+      (goals||[]).map(g=>{
+        const pct=g.target_amount>0?Math.min(100,Math.round(g.current_amount/g.target_amount*100)):0;
+        const barColor=pct>=100?'#34C759':pct>=50?'var(--blue)':'var(--purple)';
         return `<div class="goal-card">
           <div class="goal-header">
             <div class="goal-emoji">${g.emoji}</div>
@@ -568,12 +613,12 @@ async function loadSavings() {
               <div class="goal-name">${g.name}</div>
               <div class="goal-progress-text">${fmt(g.current_amount)} / ${fmt(g.target_amount)}</div>
             </div>
-            <div class="goal-pct">${pct}%</div>
+            <div class="goal-pct" style="color:${barColor}">${pct>=100?'✅':pct+'%'}</div>
           </div>
-          <div class="goal-bar-bg"><div class="goal-bar-fill" style="width:${pct}%"></div></div>
+          <div class="goal-bar-bg"><div class="goal-bar-fill" style="width:${pct}%;background:${barColor}"></div></div>
           <div class="goal-actions">
-            <button class="goal-btn goal-btn-add" onclick="topupGoal(${g.id})">+ Пополнить</button>
-            <button class="goal-btn goal-btn-take" onclick="takeGoal(${g.id})">− Снять</button>
+            <button class="goal-btn goal-btn-add" onclick="topupGoal(${g.id},'${g.name}')">+ Пополнить</button>
+            <button class="goal-btn goal-btn-take" onclick="takeGoal(${g.id},'${g.name}')">− Снять</button>
           </div>
         </div>`;
       }).join('')}
@@ -584,7 +629,7 @@ async function loadSavings() {
 async function addGoal() {
   const name = prompt('Название цели (например: Отпуск, Машина):');
   if (!name) return;
-  const emoji = prompt('Эмодзи для цели (например: 🚗 🏖️ 💻):') || '🎯';
+  const emoji = prompt('Эмодзи (например: 🚗 🏖️ 💻):') || '🎯';
   const target = parseFloat(prompt('Целевая сумма (грн):'));
   if (!target || target <= 0) { showToast('Введи корректную сумму'); return; }
   await sb.from('savings_goals').insert({ name, emoji, target_amount: target, current_amount: 0 });
@@ -592,27 +637,184 @@ async function addGoal() {
   loadSavings();
 }
 
-async function topupGoal(id) {
-  const amount = parseFloat(prompt('Сумма пополнения (грн):'));
-  if (!amount || amount <= 0) return;
-  const { data: g } = await sb.from('savings_goals').select('current_amount').eq('id', id).single();
-  await sb.from('savings_goals').update({ current_amount: Number(g.current_amount) + amount }).eq('id', id);
-  showToast('✅ Накопления пополнены!');
-  loadSavings();
+async function showAccountPicker(title, onPick) {
+  const { data: accs } = await sb.from('accounts').select('*').order('id');
+  showModal(title, accs.map(a =>
+    `<div onclick="modalPick(${a.id})" style="display:flex;align-items:center;gap:12px;background:#f8f8f8;border-radius:12px;padding:12px 14px;margin-bottom:8px;cursor:pointer">
+      <span style="font-size:22px">${a.emoji}</span>
+      <div style="flex:1"><div style="font-size:14px;font-weight:500">${a.name}</div>
+      <div style="font-size:12px;color:var(--muted)">${fmt(a.balance)}</div></div>
+      <i class="ti ti-chevron-right" style="color:var(--muted)"></i>
+    </div>`).join(''),
+  onPick);
 }
 
-async function takeGoal(id) {
-  const amount = parseFloat(prompt('Сумма снятия (грн):'));
+let modalCallback = null;
+function showModal(title, html, callback) {
+  modalCallback = callback;
+  let el = document.getElementById('appModal');
+  if (!el) {
+    el = document.createElement('div');
+    el.id = 'appModal';
+    el.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:999;display:flex;align-items:flex-end;';
+    document.body.appendChild(el);
+  }
+  el.innerHTML = `
+    <div style="background:#fff;border-radius:20px 20px 0 0;padding:20px;width:100%;max-height:70vh;overflow-y:auto">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
+        <div style="font-size:17px;font-weight:600">${title}</div>
+        <button onclick="closeModal()" style="background:none;border:none;font-size:22px;cursor:pointer;color:var(--muted)">×</button>
+      </div>
+      ${html}
+    </div>`;
+  el.style.display = 'flex';
+  el.onclick = e => { if(e.target === el) closeModal(); };
+}
+
+function modalPick(id) {
+  closeModal();
+  if (modalCallback) modalCallback(id);
+}
+
+function closeModal() {
+  const el = document.getElementById('appModal');
+  if (el) el.style.display = 'none';
+}
+
+async function topupGoal(goalId, goalName) {
+  const amountStr = prompt(`Сколько положить в "${goalName}" (грн)?`);
+  const amount = parseFloat(amountStr);
   if (!amount || amount <= 0) return;
-  const { data: g } = await sb.from('savings_goals').select('current_amount').eq('id', id).single();
-  const newAmt = Math.max(0, Number(g.current_amount) - amount);
-  await sb.from('savings_goals').update({ current_amount: newAmt }).eq('id', id);
-  showToast('✅ Снятие записано!');
+
+  showAccountPicker('С какого счёта?', async (accId) => {
+    const [{ data: g }, { data: acc }] = await Promise.all([
+      sb.from('savings_goals').select('current_amount,name').eq('id', goalId).single(),
+      sb.from('accounts').select('balance,name').eq('id', accId).single()
+    ]);
+    if (Number(acc.balance) < amount) { showToast('⚠️ Недостаточно средств на счёте'); return; }
+
+    await Promise.all([
+      sb.from('savings_goals').update({ current_amount: Number(g.current_amount) + amount }).eq('id', goalId),
+      sb.from('accounts').update({ balance: Number(acc.balance) - amount }).eq('id', accId),
+      sb.from('transactions').insert({
+        type: 'savings_in', amount, account_id: accId, savings_goal_id: goalId,
+        comment: `Пополнение: ${g.name}`
+      })
+    ]);
+    showToast(`✅ ${fmt(amount)} → ${g.name}`);
+    loadSavings();
+  });
+}
+
+async function takeGoal(goalId, goalName) {
+  const amountStr = prompt(`Сколько снять из "${goalName}" (грн)?`);
+  const amount = parseFloat(amountStr);
+  if (!amount || amount <= 0) return;
+
+  showAccountPicker('На какой счёт?', async (accId) => {
+    const [{ data: g }, { data: acc }] = await Promise.all([
+      sb.from('savings_goals').select('current_amount,name').eq('id', goalId).single(),
+      sb.from('accounts').select('balance').eq('id', accId).single()
+    ]);
+    if (Number(g.current_amount) < amount) { showToast('⚠️ Недостаточно в накоплениях'); return; }
+
+    await Promise.all([
+      sb.from('savings_goals').update({ current_amount: Number(g.current_amount) - amount }).eq('id', goalId),
+      sb.from('accounts').update({ balance: Number(acc.balance) + amount }).eq('id', accId),
+      sb.from('transactions').insert({
+        type: 'savings_out', amount, account_id: accId, savings_goal_id: goalId,
+        comment: `Снятие: ${g.name}`
+      })
+    ]);
+    showToast(`✅ ${fmt(amount)} ← ${g.name}`);
+    loadSavings();
+  });
+}
+
+async function closeMonth(surplus) {
+  const { data: goals } = await sb.from('savings_goals').select('*').order('created_at');
+  if (!goals || goals.length === 0) {
+    showToast('Сначала добавь цели накоплений');
+    return;
+  }
+
+  const goalsHtml = goals.map(g => {
+    const remaining = Math.max(0, Number(g.target_amount) - Number(g.current_amount));
+    return `<div style="background:#f8f8f8;border-radius:12px;padding:12px 14px;margin-bottom:8px">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+        <div style="font-size:14px;font-weight:500">${g.emoji} ${g.name}</div>
+        <div style="font-size:11px;color:var(--muted)">нужно ещё ${fmt(remaining)}</div>
+      </div>
+      <div style="display:flex;gap:8px;align-items:center">
+        <input type="number" id="dist_${g.id}" placeholder="0" style="flex:1;border:1.5px solid #ddd;border-radius:8px;padding:8px;font-size:14px;outline:none"
+          oninput="updateDistTotal()">
+        <span style="font-size:13px;color:var(--muted)">грн</span>
+      </div>
+    </div>`;
+  }).join('');
+
+  showModal(`Распределить ${fmt(surplus)}`, `
+    <div style="background:#F0FFF4;border-radius:12px;padding:12px;margin-bottom:16px;display:flex;justify-content:space-between">
+      <div style="font-size:14px;color:var(--green);font-weight:500">Доступно для распределения</div>
+      <div style="font-size:16px;font-weight:700;color:var(--green)" id="distLeft">+${fmt(surplus)}</div>
+    </div>
+    ${goalsHtml}
+    <div id="distWarning" style="color:var(--red);font-size:13px;margin-bottom:12px;display:none">⚠️ Превышает доступную сумму</div>
+    <button onclick="confirmDistribute(${surplus})" style="width:100%;background:var(--purple);color:#fff;border:none;border-radius:14px;padding:14px;font-size:15px;font-weight:600;cursor:pointer">
+      Распределить →
+    </button>
+  `);
+
+  window._closeMonthGoals = goals;
+  window._closeMonthSurplus = surplus;
+}
+
+function updateDistTotal() {
+  const surplus = window._closeMonthSurplus || 0;
+  const inputs = document.querySelectorAll('[id^="dist_"]');
+  let total = 0;
+  inputs.forEach(inp => total += parseFloat(inp.value)||0);
+  const left = surplus - total;
+  document.getElementById('distLeft').textContent = (left>=0?'+':'')+fmt(left);
+  document.getElementById('distLeft').style.color = left>=0?'var(--green)':'var(--red)';
+  document.getElementById('distWarning').style.display = left<0?'block':'none';
+}
+
+async function confirmDistribute(surplus) {
+  const goals = window._closeMonthGoals || [];
+  let total = 0;
+  const distributions = [];
+  goals.forEach(g => {
+    const val = parseFloat(document.getElementById('dist_'+g.id)?.value)||0;
+    if (val > 0) { distributions.push({goal: g, amount: val}); total += val; }
+  });
+  if (total > surplus) { showToast('⚠️ Сумма превышает остаток'); return; }
+  if (distributions.length === 0) { closeModal(); return; }
+
+  // Берём деньги с карты (или первого счёта) и распределяем по целям
+  const { data: accs } = await sb.from('accounts').select('*').order('id');
+  const cardAcc = accs.find(a => a.name === 'Карта') || accs[0];
+
+  for (const d of distributions) {
+    await Promise.all([
+      sb.from('savings_goals').update({ current_amount: Number(d.goal.current_amount) + d.amount }).eq('id', d.goal.id),
+      sb.from('accounts').update({ balance: Number(cardAcc.balance) - d.amount }).eq('id', cardAcc.id),
+      sb.from('transactions').insert({
+        type: 'savings_in', amount: d.amount, account_id: cardAcc.id,
+        savings_goal_id: d.goal.id, comment: `Закрытие месяца → ${d.goal.name}`
+      })
+    ]);
+  }
+
+  closeModal();
+  showToast(`✅ ${fmt(total)} распределено по целям!`);
   loadSavings();
 }
 
 // ─── INIT ────────────────────────────────────────────────
-loadHome();
+if (checkAuth()) {
+  loadHome();
+}
 </script>
 </body>
 </html>
