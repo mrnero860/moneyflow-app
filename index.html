@@ -17,11 +17,10 @@ body{font-family:-apple-system,BlinkMacSystemFont,sans-serif;background:var(--bg
 .tabbar{position:fixed;bottom:0;left:0;right:0;height:var(--bh);background:var(--card);border-top:.5px solid var(--border);display:flex;z-index:100;padding-bottom:env(safe-area-inset-bottom)}
 .tb{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;cursor:pointer;color:var(--muted);font-size:9px;transition:color .15s}
 .tb.on{color:var(--blue)}
-.tb i{font-size:21px}
+.tb i{font-size:20px}
 .pg{display:none;position:fixed;top:var(--th);bottom:var(--bh);left:0;right:0;overflow-y:auto;-webkit-overflow-scrolling:touch}
 .pg.on{display:block}
 .wrap{padding:16px 16px 24px}
-/* BALANCE */
 .bal{background:var(--blue);border-radius:20px;padding:20px;color:#fff;margin-bottom:14px}
 .bal-l{font-size:12px;opacity:.85;margin-bottom:4px}
 .bal-n{font-size:32px;font-weight:700;margin-bottom:14px;letter-spacing:-.5px}
@@ -51,7 +50,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,sans-serif;background:var(--bg
 .txa.neg{color:var(--red)}
 .txa.pos{color:var(--green)}
 .delbtn{background:#FFF0F0;border:none;border-radius:8px;width:30px;height:30px;cursor:pointer;color:var(--red);display:flex;align-items:center;justify-content:center;flex-shrink:0}
-/* ADD */
 .ttabs{display:flex;background:#f0f0f0;border-radius:12px;padding:3px;margin-bottom:14px}
 .ttab{flex:1;padding:8px;text-align:center;font-size:13px;border-radius:10px;cursor:pointer;color:var(--muted);font-weight:500;transition:all .15s}
 .ttab.exp{background:var(--red);color:#fff}
@@ -86,7 +84,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,sans-serif;background:var(--bg
 .cominp{width:100%;background:var(--card);border:1.5px solid var(--border);border-radius:14px;padding:12px 14px;font-size:15px;color:var(--text);outline:none;margin-bottom:14px;font-family:inherit}
 .cominp:focus{border-color:var(--blue)}
 .savebtn{width:100%;background:var(--blue);color:#fff;border:none;border-radius:14px;padding:15px;font-size:16px;font-weight:600;cursor:pointer}
-/* STATS */
 .statnav{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
 .statnb{background:var(--card);border:none;border-radius:10px;width:36px;height:36px;cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--blue)}
 .statlbl{font-size:16px;font-weight:600}
@@ -103,14 +100,12 @@ body{font-family:-apple-system,BlinkMacSystemFont,sans-serif;background:var(--bg
 .statcatv{font-size:14px;font-weight:600}
 .barbg{background:#f0f0f0;border-radius:6px;height:6px;overflow:hidden}
 .barfill{height:100%;border-radius:6px;transition:width .5s}
-/* HISTORY */
 .hfil{display:flex;gap:8px;margin-bottom:14px}
-.hfbtn{flex:1;padding:8px;border-radius:10px;border:1.5px solid var(--border);background:var(--card);color:var(--muted);font-size:12px;font-weight:500;cursor:pointer;transition:all .15s}
-.hfbtn.exp-on{border-color:var(--red);background:#FFF0F0;color:var(--red)}
-.hfbtn.inc-on{border-color:var(--green);background:#F0FFF4;color:var(--green)}
-.hfbtn.all-on{border-color:var(--blue);background:#EEF4FF;color:var(--blue)}
+.hfbtn{flex:1;padding:8px;border-radius:10px;border:1.5px solid var(--border);background:var(--card);color:var(--muted);font-size:12px;font-weight:500;cursor:pointer}
+.hfbtn.aon{border-color:var(--blue);background:#EEF4FF;color:var(--blue)}
+.hfbtn.eon{border-color:var(--red);background:#FFF0F0;color:var(--red)}
+.hfbtn.ion{border-color:var(--green);background:#F0FFF4;color:var(--green)}
 .morebtn{width:100%;background:var(--card);border:1.5px solid var(--border);border-radius:14px;padding:13px;font-size:14px;color:var(--blue);font-weight:600;cursor:pointer;margin-top:8px}
-/* SAVINGS */
 .savhero{background:var(--purple);border-radius:20px;padding:20px;color:#fff;margin-bottom:14px}
 .savhl{font-size:12px;opacity:.85;margin-bottom:4px}
 .savhn{font-size:32px;font-weight:700;margin-bottom:4px;letter-spacing:-.5px}
@@ -130,6 +125,24 @@ body{font-family:-apple-system,BlinkMacSystemFont,sans-serif;background:var(--bg
 .gbtn-t{background:#FFF0F0;color:var(--red)}
 .addgoal{width:100%;background:var(--card);border:2px dashed var(--purple);border-radius:16px;padding:14px;font-size:15px;color:var(--purple);font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;margin-top:4px}
 .surpcard{border-radius:16px;padding:14px;margin-bottom:14px}
+/* VAULTS */
+.vhero{background:linear-gradient(135deg,#1a1a2e,#16213e);border-radius:20px;padding:20px;color:#fff;margin-bottom:14px}
+.vhero-l{font-size:12px;opacity:.7;margin-bottom:4px}
+.vhero-n{font-size:28px;font-weight:700;letter-spacing:-.5px}
+.vhero-s{font-size:13px;opacity:.7;margin-top:4px}
+.vcard{background:var(--card);border-radius:16px;padding:16px;margin-bottom:12px}
+.vcard-top{display:flex;align-items:center;gap:14px;margin-bottom:14px}
+.vem{font-size:34px}
+.vinf{flex:1}
+.vnm{font-size:16px;font-weight:700;margin-bottom:2px}
+.vbal{font-size:26px;font-weight:700;letter-spacing:-.5px}
+.vsub{font-size:12px;color:var(--muted);margin-top:2px}
+.vacts{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.vbtn{padding:10px 6px;border-radius:12px;font-size:11px;font-weight:600;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:4px}
+.vbtn-add{background:#F0FFF4;color:var(--green)}
+.vbtn-out{background:#FFF0F0;color:var(--red)}
+.vbtn-tr{background:#EEF4FF;color:var(--blue)}
+.vbtn-inc{background:#F5F0FF;color:var(--purple)}
 /* MODAL */
 .mbg{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:999;display:none;align-items:flex-end}
 .mbg.on{display:flex}
@@ -138,7 +151,11 @@ body{font-family:-apple-system,BlinkMacSystemFont,sans-serif;background:var(--bg
 .mtitle{font-size:17px;font-weight:600}
 .mclose{background:none;border:none;font-size:26px;cursor:pointer;color:var(--muted);line-height:1}
 .marc{display:flex;align-items:center;gap:12px;background:#f8f8f8;border-radius:12px;padding:12px 14px;margin-bottom:8px;cursor:pointer}
-/* TOAST */
+.minp{width:100%;background:#f8f8f8;border:1.5px solid var(--border);border-radius:12px;padding:12px 14px;font-size:16px;font-weight:600;outline:none;text-align:center;color:var(--text);margin-bottom:10px;font-family:inherit}
+.minp:focus{border-color:var(--blue)}
+.mrow{display:flex;gap:8px;align-items:center;margin-bottom:10px}
+.mlbl{font-size:13px;color:var(--muted);white-space:nowrap}
+.mconfirm{width:100%;padding:14px;border:none;border-radius:14px;font-size:15px;font-weight:600;cursor:pointer;color:#fff}
 .toast{position:fixed;bottom:calc(var(--bh) + 14px);left:50%;transform:translateX(-50%);background:#1a1a2e;color:#fff;padding:10px 20px;border-radius:20px;font-size:14px;font-weight:500;z-index:9999;opacity:0;transition:opacity .3s;pointer-events:none;white-space:nowrap}
 .toast.on{opacity:1}
 .spin{width:28px;height:28px;border:3px solid var(--border);border-top-color:var(--blue);border-radius:50%;animation:sp .7s linear infinite;margin:40px auto}
@@ -189,6 +206,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,sans-serif;background:var(--bg
 
 <div class="pg" id="pg-stats"><div class="wrap" id="statsEl"><div class="spin"></div></div></div>
 <div class="pg" id="pg-hist"><div class="wrap" id="histEl"><div class="spin"></div></div></div>
+<div class="pg" id="pg-vlt"><div class="wrap" id="vltEl"><div class="spin"></div></div></div>
 <div class="pg" id="pg-sav"><div class="wrap" id="savEl"><div class="spin"></div></div></div>
 
 <div class="tabbar">
@@ -196,7 +214,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,sans-serif;background:var(--bg
   <div class="tb" id="tb-add" onclick="go('add')"><i class="ti ti-plus-circle"></i>Добавить</div>
   <div class="tb" id="tb-stats" onclick="go('stats')"><i class="ti ti-chart-pie"></i>Статистика</div>
   <div class="tb" id="tb-hist" onclick="go('hist')"><i class="ti ti-list"></i>История</div>
-  <div class="tb" id="tb-sav" onclick="go('sav')"><i class="ti ti-piggy-bank"></i>Накопления</div>
+  <div class="tb" id="tb-vlt" onclick="go('vlt')"><i class="ti ti-safe"></i>Резервы</div>
+  <div class="tb" id="tb-sav" onclick="go('sav')"><i class="ti ti-piggy-bank"></i>Цели</div>
 </div>
 
 <div class="mbg" id="mbg">
@@ -223,28 +242,17 @@ function checkAuth() {
 }
 if (tg) { tg.ready(); tg.expand(); }
 
-var txType = 'expense';
-var selCat = null;
-var selAcc = null;
-var selCur = 'UAH';
-var statMonth = new Date();
-statMonth.setDate(1);
-var histOffset = 0;
-var histLimit = 30;
-var histFilter = 'all';
-var histDone = false;
-var modalCb = null;
-var cmGoals = null;
-var cmSurplus = 0;
+var txType = 'expense', selCat = null, selAcc = null, selCur = 'UAH';
+var statMonth = new Date(); statMonth.setDate(1);
+var histOffset = 0, histLimit = 30, histFilter = 'all', histDone = false;
+var modalCb = null, cmGoals = null, cmSurplus = 0;
 
-function fmt(n) { return Number(n).toLocaleString('uk-UA', {maximumFractionDigits:0}) + ' грн'; }
-function fmtD(d) { return new Date(d).toLocaleDateString('ru-RU', {day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'}); }
+function fmt(n) { return Number(n).toLocaleString('uk-UA',{maximumFractionDigits:0}) + ' грн'; }
+function fmtD(d) { return new Date(d).toLocaleDateString('ru-RU',{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'}); }
+function fmtUSD(n) { return '$' + Number(n).toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2}); }
 function monthRange(d) {
-  var y = d.getFullYear(), m = d.getMonth();
-  return {
-    from: new Date(y,m,1).toISOString(),
-    to: new Date(y,m+1,0,23,59,59).toISOString()
-  };
+  var y=d.getFullYear(), m=d.getMonth();
+  return { from: new Date(y,m,1).toISOString(), to: new Date(y,m+1,0,23,59,59).toISOString() };
 }
 
 function go(name) {
@@ -256,20 +264,20 @@ function go(name) {
   if (name==='add') loadAdd();
   if (name==='stats') loadStats();
   if (name==='hist') loadHist(true);
+  if (name==='vlt') loadVlt();
   if (name==='sav') loadSav();
 }
 
 function toast(msg) {
-  var t = document.getElementById('toastEl');
-  t.textContent = msg;
-  t.classList.add('on');
-  setTimeout(function(){ t.classList.remove('on'); }, 2500);
+  var t=document.getElementById('toastEl');
+  t.textContent=msg; t.classList.add('on');
+  setTimeout(function(){ t.classList.remove('on'); },2500);
 }
 
 function showModal(title, html, cb) {
-  modalCb = cb || null;
+  modalCb = cb||null;
   document.getElementById('mbox').innerHTML =
-    '<div class="mhdr"><div class="mtitle">'+title+'</div><button class="mclose" onclick="closeModal()">×</button></div>' + html;
+    '<div class="mhdr"><div class="mtitle">'+title+'</div><button class="mclose" onclick="closeModal()">×</button></div>'+html;
   document.getElementById('mbg').classList.add('on');
 }
 function closeModal() { document.getElementById('mbg').classList.remove('on'); }
@@ -278,76 +286,52 @@ function mpick(id) { closeModal(); if(modalCb) modalCb(id); }
 
 // ── HOME ────────────────────────────────────────────────
 function loadHome() {
-  var el = document.getElementById('homeEl');
-  el.innerHTML = '<div class="spin"></div>';
-  var now = new Date();
-  var r = monthRange(now);
-  document.getElementById('hdrM').innerHTML = now.toLocaleDateString('ru-RU',{month:'long'}) + ' <i class="ti ti-chevron-right" style="font-size:12px"></i>';
+  var el=document.getElementById('homeEl');
+  el.innerHTML='<div class="spin"></div>';
+  var now=new Date(); var r=monthRange(now);
+  document.getElementById('hdrM').innerHTML=now.toLocaleDateString('ru-RU',{month:'long'})+' <i class="ti ti-chevron-right" style="font-size:12px"></i>';
   Promise.all([
     sb.from('accounts').select('*').order('id'),
     sb.from('transactions').select('*,categories(name,emoji),accounts(name,emoji)').order('created_at',{ascending:false}).limit(15),
     sb.from('transactions').select('type,amount').gte('created_at',r.from).lte('created_at',r.to).in('type',['income','expense'])
   ]).then(function(res){
-    var accs = res[0].data || [];
-    var txs  = res[1].data || [];
-    var mths = res[2].data || [];
-    var bal = accs.reduce(function(s,a){ return s+Number(a.balance); },0);
-    var inc = mths.filter(function(t){ return t.type==='income'; }).reduce(function(s,t){ return s+Number(t.amount); },0);
-    var exp = mths.filter(function(t){ return t.type==='expense'; }).reduce(function(s,t){ return s+Number(t.amount); },0);
-    var aHtml = '';
-    accs.forEach(function(a){
-      aHtml += '<div class="acard"><div class="ae">'+a.emoji+'</div><div class="an">'+a.name+'</div><div class="av">'+fmt(a.balance)+'</div></div>';
-    });
-    var tHtml = '';
-    if (!txs.length) {
-      tHtml = '<div class="empty"><i class="ti ti-receipt-off"></i>Транзакций пока нет</div>';
-    } else {
-      txs.forEach(function(t){
-        var ic = t.type==='expense'?'r':'g';
-        var sg = t.type==='expense'?'-':'+';
-        var cl = t.type==='expense'?'neg':'pos';
-        var ce = t.categories&&t.categories.emoji?t.categories.emoji:'📦';
-        var cn = t.categories&&t.categories.name?t.categories.name:'—';
-        var ae = t.accounts&&t.accounts.emoji?t.accounts.emoji:'';
-        var an = t.accounts&&t.accounts.name?t.accounts.name:'—';
-        var com = t.comment?'<div class="txic2">💬 '+t.comment+'</div>':'';
-        tHtml += '<div class="txi">'+
-          '<div class="txic '+ic+'">'+ce+'</div>'+
-          '<div class="txif"><div class="txin">'+cn+'</div><div class="txim">'+ae+' '+an+' · '+fmtD(t.created_at)+'</div>'+com+'</div>'+
-          '<div style="display:flex;align-items:center;gap:8px">'+
-            '<div class="txa '+cl+'">'+sg+fmt(t.amount)+'</div>'+
-            '<button class="delbtn" onclick="delTx('+t.id+','+t.account_id+','+t.amount+',"'+t.type+'")"><i class="ti ti-trash" style="font-size:15px"></i></button>'+
-          '</div>'+
-        '</div>';
-      });
-    }
-    el.innerHTML =
-      '<div class="bal">'+
-        '<div class="bal-l">Общий баланс</div>'+
-        '<div class="bal-n">'+fmt(bal)+'</div>'+
-        '<div class="bal-row">'+
-          '<div class="bal-s"><div class="bal-sl">Доходы (месяц)</div><div class="bal-sv">+'+fmt(inc)+'</div></div>'+
-          '<div class="bal-s"><div class="bal-sl">Расходы (месяц)</div><div class="bal-sv">-'+fmt(exp)+'</div></div>'+
-        '</div>'+
-      '</div>'+
-      '<div class="qb">'+
-        '<button class="qb-e" onclick="go(\'add\');setType(\'expense\')"><i class="ti ti-minus" style="font-size:15px"></i> Расход</button>'+
-        '<button class="qb-i" onclick="go(\'add\');setType(\'income\')"><i class="ti ti-plus" style="font-size:15px"></i> Доход</button>'+
-      '</div>'+
+    var accs=res[0].data||[], txs=res[1].data||[], mths=res[2].data||[];
+    var bal=accs.reduce(function(s,a){ return s+Number(a.balance); },0);
+    var inc=mths.filter(function(t){ return t.type==='income'; }).reduce(function(s,t){ return s+Number(t.amount); },0);
+    var exp=mths.filter(function(t){ return t.type==='expense'; }).reduce(function(s,t){ return s+Number(t.amount); },0);
+    var aHtml='';
+    accs.forEach(function(a){ aHtml+='<div class="acard"><div class="ae">'+a.emoji+'</div><div class="an">'+a.name+'</div><div class="av">'+fmt(a.balance)+'</div></div>'; });
+    var tHtml='';
+    if (!txs.length) { tHtml='<div class="empty"><i class="ti ti-receipt-off"></i>Транзакций пока нет</div>'; }
+    else { txs.forEach(function(t){
+      var ic=t.type==='expense'?'r':'g', sg=t.type==='expense'?'-':'+', cl=t.type==='expense'?'neg':'pos';
+      var ce=t.categories&&t.categories.emoji?t.categories.emoji:'📦';
+      var cn=t.categories&&t.categories.name?t.categories.name:'—';
+      var ae=t.accounts&&t.accounts.emoji?t.accounts.emoji:'';
+      var an=t.accounts&&t.accounts.name?t.accounts.name:'—';
+      var com=t.comment?'<div class="txic2">💬 '+t.comment+'</div>':'';
+      tHtml+='<div class="txi"><div class="txic '+ic+'">'+ce+'</div>'+
+        '<div class="txif"><div class="txin">'+cn+'</div><div class="txim">'+ae+' '+an+' · '+fmtD(t.created_at)+'</div>'+com+'</div>'+
+        '<div style="display:flex;align-items:center;gap:8px">'+
+          '<div class="txa '+cl+'">'+sg+fmt(t.amount)+'</div>'+
+          '<button class="delbtn" onclick="delTx('+t.id+','+t.account_id+','+t.amount+',"'+t.type+'")"><i class="ti ti-trash" style="font-size:15px"></i></button>'+
+        '</div></div>';
+    }); }
+    el.innerHTML='<div class="bal"><div class="bal-l">Общий баланс</div><div class="bal-n">'+fmt(bal)+'</div>'+
+      '<div class="bal-row"><div class="bal-s"><div class="bal-sl">Доходы (месяц)</div><div class="bal-sv">+'+fmt(inc)+'</div></div>'+
+      '<div class="bal-s"><div class="bal-sl">Расходы (месяц)</div><div class="bal-sv">-'+fmt(exp)+'</div></div></div></div>'+
+      '<div class="qb"><button class="qb-e" onclick="go(\'add\');setType(\'expense\')"><i class="ti ti-minus" style="font-size:15px"></i> Расход</button>'+
+      '<button class="qb-i" onclick="go(\'add\');setType(\'income\')"><i class="ti ti-plus" style="font-size:15px"></i> Доход</button></div>'+
       '<div class="sec">Счета</div><div class="acg">'+aHtml+'</div>'+
-      '<div class="sec">Последние операции</div>'+
-      '<div class="txl">'+tHtml+'</div>';
+      '<div class="sec">Последние операции</div><div class="txl">'+tHtml+'</div>';
   });
 }
 
-function delTx(id, accId, amt, type) {
+function delTx(id,accId,amt,type) {
   if (!confirm('Удалить транзакцию?')) return;
   sb.from('accounts').select('balance').eq('id',accId).single().then(function(r){
-    var nb = type==='expense' ? Number(r.data.balance)+Number(amt) : Number(r.data.balance)-Number(amt);
-    return Promise.all([
-      sb.from('transactions').delete().eq('id',id),
-      sb.from('accounts').update({balance:nb}).eq('id',accId)
-    ]);
+    var nb=type==='expense'?Number(r.data.balance)+Number(amt):Number(r.data.balance)-Number(amt);
+    return Promise.all([sb.from('transactions').delete().eq('id',id),sb.from('accounts').update({balance:nb}).eq('id',accId)]);
   }).then(function(){ toast('🗑 Удалено'); loadHome(); });
 }
 
@@ -360,15 +344,14 @@ function loadAdd() {
     sb.from('categories').select('*').eq('type',txType).order('id'),
     sb.from('accounts').select('*').order('id')
   ]).then(function(res){
-    var cats = res[0].data||[];
-    var accs = res[1].data||[];
+    var cats=res[0].data||[], accs=res[1].data||[];
     var ch='';
     cats.forEach(function(c){
       ch+='<div class="catr" data-id="'+c.id+'" data-nm="'+c.name+'" data-em="'+c.emoji+'" onclick="pickCat(this)">'+
-        '<div class="catem">'+c.emoji+'</div><div class="catnm">'+c.name+'</div>'+
-        '<i class="ti ti-circle-check catchk"></i></div>';
+        '<div class="catem">'+c.emoji+'</div><div class="catnm">'+c.name+'</div><i class="ti ti-circle-check catchk"></i></div>';
     });
-    ch+='<div class="addcat" onclick="addCat()"><div class="addcati"><i class="ti ti-plus" style="font-size:17px;color:#fff"></i></div><div style="font-size:15px;color:var(--blue);font-weight:500">Добавить категорию</div></div>';
+    ch+='<div class="addcat" onclick="addCat()"><div class="addcati"><i class="ti ti-plus" style="font-size:17px;color:#fff"></i></div>'+
+      '<div style="font-size:15px;color:var(--blue);font-weight:500">Добавить категорию</div></div>';
     document.getElementById('catEl').innerHTML=ch;
     var ah='';
     accs.forEach(function(a){
@@ -380,7 +363,6 @@ function loadAdd() {
     document.getElementById('accEl').innerHTML=ah;
   });
 }
-
 function pickCat(el) {
   document.querySelectorAll('.catr').forEach(function(r){ r.classList.remove('se','si'); });
   el.classList.add(txType==='expense'?'se':'si');
@@ -388,8 +370,7 @@ function pickCat(el) {
 }
 function pickAcc(el) {
   document.querySelectorAll('.accr').forEach(function(r){ r.classList.remove('on'); });
-  el.classList.add('on');
-  selAcc=el.dataset.id;
+  el.classList.add('on'); selAcc=el.dataset.id;
 }
 function setType(t) {
   txType=t;
@@ -399,22 +380,14 @@ function setType(t) {
 }
 function setCur(el,cur) {
   document.querySelectorAll('.cb').forEach(function(b){ b.classList.remove('on'); });
-  el.classList.add('on');
-  selCur=cur;
-  var rb=document.getElementById('rateBox');
-  var hl=document.getElementById('hintEl');
+  el.classList.add('on'); selCur=cur;
+  var rb=document.getElementById('rateBox'), hl=document.getElementById('hintEl');
   var syms={EUR:'€',USD:'$',GBP:'£'};
-  if (cur==='UAH') {
-    rb.style.display='none'; hl.style.display='block'; hl.textContent='Сумма в гривнах';
-  } else {
-    hl.style.display='none'; rb.style.display='flex';
-    document.getElementById('rateLabel').textContent='1 '+syms[cur]+' =';
-    document.getElementById('rateIn').value='';
-  }
+  if (cur==='UAH') { rb.style.display='none'; hl.style.display='block'; hl.textContent='Сумма в гривнах'; }
+  else { hl.style.display='none'; rb.style.display='flex'; document.getElementById('rateLabel').textContent='1 '+syms[cur]+' ='; document.getElementById('rateIn').value=''; }
 }
 function addCat() {
-  var nm=prompt('Название категории:');
-  if (!nm) return;
+  var nm=prompt('Название категории:'); if (!nm) return;
   sb.from('categories').insert({name:nm,emoji:'📦',type:txType}).then(function(){ toast('✅ Категория добавлена'); loadAdd(); });
 }
 function saveTx() {
@@ -423,9 +396,7 @@ function saveTx() {
   if (!selCat){ toast('⚠️ Выбери категорию'); return; }
   if (!selAcc){ toast('⚠️ Выбери счёт'); return; }
   var com=document.getElementById('comIn').value;
-  var accId=parseInt(selAcc);
-  var catId=parseInt(selCat.id);
-  var finalAmt=amt;
+  var accId=parseInt(selAcc), catId=parseInt(selCat.id), finalAmt=amt;
   if (selCur!=='UAH') {
     var rate=parseFloat(document.getElementById('rateIn').value);
     if (!rate||rate<=0){ toast('⚠️ Введи курс валюты'); return; }
@@ -460,24 +431,13 @@ function loadStats() {
     var incs=txs.filter(function(t){ return t.type==='income'; });
     var totE=exps.reduce(function(s,t){ return s+Number(t.amount); },0);
     var totI=incs.reduce(function(s,t){ return s+Number(t.amount); },0);
-    var diff=totI-totE;
-    var dCls=diff>=0?'pos':'neg';
+    var diff=totI-totE, dCls=diff>=0?'pos':'neg';
     var byE={}, byI={};
-    exps.forEach(function(t){
-      var k=t.categories&&t.categories.name?t.categories.name:'Прочее';
-      var em=t.categories&&t.categories.emoji?t.categories.emoji:'📦';
-      if (!byE[k]) byE[k]={em:em,tot:0};
-      byE[k].tot+=Number(t.amount);
-    });
-    incs.forEach(function(t){
-      var k=t.categories&&t.categories.name?t.categories.name:'Прочее';
-      var em=t.categories&&t.categories.emoji?t.categories.emoji:'📦';
-      if (!byI[k]) byI[k]={em:em,tot:0};
-      byI[k].tot+=Number(t.amount);
-    });
+    exps.forEach(function(t){ var k=t.categories&&t.categories.name?t.categories.name:'Прочее', em=t.categories&&t.categories.emoji?t.categories.emoji:'📦'; if(!byE[k]) byE[k]={em:em,tot:0}; byE[k].tot+=Number(t.amount); });
+    incs.forEach(function(t){ var k=t.categories&&t.categories.name?t.categories.name:'Прочее', em=t.categories&&t.categories.emoji?t.categories.emoji:'📦'; if(!byI[k]) byI[k]={em:em,tot:0}; byI[k].tot+=Number(t.amount); });
     var sE=Object.entries(byE).sort(function(a,b){ return b[1].tot-a[1].tot; });
     var sI=Object.entries(byI).sort(function(a,b){ return b[1].tot-a[1].tot; });
-    function catHtml(entries, total, type) {
+    function catHtml(entries,total,type) {
       if (!entries.length) return '<div class="empty" style="padding:16px"><i class="ti ti-chart-pie-off"></i>Нет данных</div>';
       var h='';
       entries.forEach(function(e){
@@ -486,25 +446,18 @@ function loadStats() {
         var col=type==='expense'?'var(--red)':'var(--green)';
         var sgn=type==='expense'?'-':'+';
         h+='<div class="statcat" onclick="showCatDetail(\''+nm+'\',\''+em+'\',\''+type+'\',\''+r.from+'\',\''+r.to+'\')">'+
-          '<div class="statcath">'+
-            '<div class="statcatn">'+em+' '+nm+'</div>'+
-            '<div style="display:flex;align-items:center;gap:6px">'+
-              '<div class="statcatv" style="color:'+col+'">'+sgn+fmt(tot)+'</div>'+
-              '<i class="ti ti-chevron-right" style="color:var(--muted);font-size:15px"></i>'+
-            '</div>'+
-          '</div>'+
+          '<div class="statcath"><div class="statcatn">'+em+' '+nm+'</div>'+
+          '<div style="display:flex;align-items:center;gap:6px"><div class="statcatv" style="color:'+col+'">'+sgn+fmt(tot)+'</div>'+
+          '<i class="ti ti-chevron-right" style="color:var(--muted);font-size:15px"></i></div></div>'+
           '<div class="barbg"><div class="barfill" style="width:'+pct+'%;background:'+col+'"></div></div>'+
-          '<div style="font-size:11px;color:var(--muted);margin-top:4px">'+pct+'% от '+(type==='expense'?'расходов':'доходов')+'</div>'+
-        '</div>';
+          '<div style="font-size:11px;color:var(--muted);margin-top:4px">'+pct+'% от '+(type==='expense'?'расходов':'доходов')+'</div></div>';
       });
       return h;
     }
-    el.innerHTML=
-      '<div class="statnav">'+
-        '<button class="statnb" onclick="chMonth(-1)"><i class="ti ti-chevron-left"></i></button>'+
-        '<div class="statlbl">'+lbl+'</div>'+
-        '<button class="statnb" onclick="chMonth(1)"><i class="ti ti-chevron-right"></i></button>'+
-      '</div>'+
+    el.innerHTML='<div class="statnav">'+
+      '<button class="statnb" onclick="chMonth(-1)"><i class="ti ti-chevron-left"></i></button>'+
+      '<div class="statlbl">'+lbl+'</div>'+
+      '<button class="statnb" onclick="chMonth(1)"><i class="ti ti-chevron-right"></i></button></div>'+
       '<div class="statsum">'+
         '<div class="statsc"><div class="statsl">Доходы</div><div class="statsv pos">+'+fmt(totI)+'</div></div>'+
         '<div class="statsc"><div class="statsl">Расходы</div><div class="statsv neg">-'+fmt(totE)+'</div></div>'+
@@ -515,40 +468,33 @@ function loadStats() {
   });
 }
 function chMonth(d){ statMonth.setMonth(statMonth.getMonth()+d); loadStats(); }
-
-function showCatDetail(nm, em, type, from, to) {
+function showCatDetail(nm,em,type,from,to) {
   sb.from('transactions').select('amount,comment,created_at,accounts(name,emoji),categories(name)')
     .eq('type',type).gte('created_at',from).lte('created_at',to).order('created_at',{ascending:false})
     .then(function(r){
       var filtered=(r.data||[]).filter(function(t){ return t.categories&&t.categories.name===nm; });
       var total=filtered.reduce(function(s,t){ return s+Number(t.amount); },0);
-      var col=type==='expense'?'var(--red)':'var(--green)';
-      var sgn=type==='expense'?'-':'+';
+      var col=type==='expense'?'var(--red)':'var(--green)', sgn=type==='expense'?'-':'+';
       var rows='';
-      if (!filtered.length) {
-        rows='<div class="empty"><i class="ti ti-receipt-off"></i>Нет записей</div>';
-      } else {
-        filtered.forEach(function(t){
-          var ae=t.accounts&&t.accounts.emoji?t.accounts.emoji:'';
-          var an=t.accounts&&t.accounts.name?t.accounts.name:'—';
-          rows+='<div style="background:#f8f8f8;border-radius:12px;padding:12px;margin-bottom:8px">'+
-            '<div style="display:flex;justify-content:space-between;margin-bottom:6px">'+
-              '<div style="font-size:15px;font-weight:600;color:'+col+'">'+sgn+fmt(t.amount)+'</div>'+
-              '<div style="font-size:11px;color:var(--muted)">'+fmtD(t.created_at)+'</div>'+
-            '</div>'+
-            '<div style="font-size:12px;color:var(--muted);margin-bottom:4px">'+ae+' '+an+'</div>'+
-            '<div style="font-size:13px;padding:6px 8px;background:#fff;border-radius:8px;border-left:3px solid '+col+'">'+
-              (t.comment?t.comment:'<span style="color:var(--muted)">Без комментария</span>')+
-            '</div>'+
-          '</div>';
-        });
-      }
-      var h='<div style="background:'+(type==='expense'?'#FFF0F0':'#F0FFF4')+';border-radius:12px;padding:12px;margin-bottom:14px;display:flex;justify-content:space-between;align-items:center">'+
-        '<div style="font-size:14px;font-weight:500">'+em+' '+nm+'</div>'+
-        '<div style="font-size:18px;font-weight:700;color:'+col+'">'+sgn+fmt(total)+'</div>'+
-      '</div>'+
-      '<div class="sec">Записей: '+filtered.length+'</div>'+rows;
-      showModal(em+' '+nm, h);
+      if (!filtered.length) { rows='<div class="empty"><i class="ti ti-receipt-off"></i>Нет записей</div>'; }
+      else { filtered.forEach(function(t){
+        var ae=t.accounts&&t.accounts.emoji?t.accounts.emoji:'';
+        var an=t.accounts&&t.accounts.name?t.accounts.name:'—';
+        rows+='<div style="background:#f8f8f8;border-radius:12px;padding:12px;margin-bottom:8px">'+
+          '<div style="display:flex;justify-content:space-between;margin-bottom:6px">'+
+            '<div style="font-size:15px;font-weight:600;color:'+col+'">'+sgn+fmt(t.amount)+'</div>'+
+            '<div style="font-size:11px;color:var(--muted)">'+fmtD(t.created_at)+'</div>'+
+          '</div>'+
+          '<div style="font-size:12px;color:var(--muted);margin-bottom:4px">'+ae+' '+an+'</div>'+
+          '<div style="font-size:13px;padding:6px 8px;background:#fff;border-radius:8px;border-left:3px solid '+col+'">'+
+            (t.comment?t.comment:'<span style="color:var(--muted)">Без комментария</span>')+
+          '</div></div>';
+      }); }
+      showModal(em+' '+nm,
+        '<div style="background:'+(type==='expense'?'#FFF0F0':'#F0FFF4')+';border-radius:12px;padding:12px;margin-bottom:14px;display:flex;justify-content:space-between;align-items:center">'+
+          '<div style="font-size:14px;font-weight:500">'+em+' '+nm+'</div>'+
+          '<div style="font-size:18px;font-weight:700;color:'+col+'">'+sgn+fmt(total)+'</div></div>'+
+          '<div class="sec">Записей: '+filtered.length+'</div>'+rows);
     });
 }
 
@@ -566,37 +512,29 @@ function loadHist(reset) {
     if (txs.length<histLimit) histDone=true;
     var rows='';
     txs.forEach(function(t){
-      var ic=t.type==='expense'?'r':'g';
-      var sg=t.type==='expense'?'-':'+';
-      var cl=t.type==='expense'?'neg':'pos';
+      var ic=t.type==='expense'?'r':'g', sg=t.type==='expense'?'-':'+', cl=t.type==='expense'?'neg':'pos';
       var ce=t.categories&&t.categories.emoji?t.categories.emoji:'📦';
       var cn=t.categories&&t.categories.name?t.categories.name:'—';
       var ae=t.accounts&&t.accounts.emoji?t.accounts.emoji:'';
       var an=t.accounts&&t.accounts.name?t.accounts.name:'—';
       var com=t.comment?'<div class="txic2">💬 '+t.comment+'</div>':'';
-      rows+='<div class="txi">'+
-        '<div class="txic '+ic+'">'+ce+'</div>'+
+      rows+='<div class="txi"><div class="txic '+ic+'">'+ce+'</div>'+
         '<div class="txif"><div class="txin">'+cn+'</div><div class="txim">'+ae+' '+an+' · '+fmtD(t.created_at)+'</div>'+com+'</div>'+
         '<div style="display:flex;align-items:center;gap:8px">'+
           '<div class="txa '+cl+'">'+sg+fmt(t.amount)+'</div>'+
           '<button class="delbtn" onclick="delTxH('+t.id+','+t.account_id+','+t.amount+',"'+t.type+'")"><i class="ti ti-trash" style="font-size:15px"></i></button>'+
-        '</div>'+
-      '</div>';
+        '</div></div>';
     });
     var more=histDone?'':'<button class="morebtn" onclick="moreHist()">Загрузить ещё</button>';
-    var eCls={'all':'all-on','expense':'exp-on','income':'inc-on'};
     var fil='<div class="hfil">'+
-      '<button class="hfbtn '+(histFilter==='all'?'all-on':'')+'" onclick="setHF(\'all\')">Все</button>'+
-      '<button class="hfbtn '+(histFilter==='expense'?'exp-on':'')+'" onclick="setHF(\'expense\')">Расходы</button>'+
-      '<button class="hfbtn '+(histFilter==='income'?'inc-on':'')+'" onclick="setHF(\'income\')">Доходы</button>'+
-    '</div>';
-    if (reset) {
-      el.innerHTML=fil+'<div class="txl" id="histList">'+rows+'</div>'+more;
-    } else {
+      '<button class="hfbtn '+(histFilter==='all'?'aon':'')+'" onclick="setHF(\'all\')">Все</button>'+
+      '<button class="hfbtn '+(histFilter==='expense'?'eon':'')+'" onclick="setHF(\'expense\')">Расходы</button>'+
+      '<button class="hfbtn '+(histFilter==='income'?'ion':'')+'" onclick="setHF(\'income\')">Доходы</button></div>';
+    if (reset) { el.innerHTML=fil+'<div class="txl" id="histList">'+rows+'</div>'+more; }
+    else {
       var list=document.getElementById('histList');
       if (list) list.innerHTML+=rows;
-      var old=el.querySelector('.morebtn');
-      if (old) old.remove();
+      var old=el.querySelector('.morebtn'); if(old) old.remove();
       if (more) el.insertAdjacentHTML('beforeend',more);
     }
   });
@@ -611,77 +549,330 @@ function delTxH(id,accId,amt,type) {
   }).then(function(){ toast('🗑 Удалено'); loadHist(true); });
 }
 
+// ── VAULTS ──────────────────────────────────────────────
+// Используем глобальный массив чтобы не передавать JSON через onclick
+var vltData = [];
+
+function loadVlt() {
+  var el = document.getElementById('vltEl');
+  el.innerHTML = '<div class="spin"></div>';
+  Promise.all([
+    sb.from('vaults').select('*').order('created_at'),
+    sb.from('transactions').select('type,amount')
+      .gte('created_at', monthRange(new Date()).from)
+      .lte('created_at', monthRange(new Date()).to)
+      .in('type', ['income','expense'])
+  ]).then(function(res) {
+    vltData = res[0].data || [];
+    var mths = res[1].data || [];
+    var totUSD = vltData.reduce(function(s,v){ return s + Number(v.balance); }, 0);
+    var mI = mths.filter(function(t){ return t.type==='income'; }).reduce(function(s,t){ return s+Number(t.amount); }, 0);
+    var mE = mths.filter(function(t){ return t.type==='expense'; }).reduce(function(s,t){ return s+Number(t.amount); }, 0);
+    var surplus = mI - mE;
+    var sPos = surplus >= 0;
+    var sCol = sPos ? 'var(--green)' : 'var(--red)';
+    var sBg = sPos ? '#F0FFF4' : '#FFF0F0';
+    var now = new Date();
+
+    var sBtn = sPos
+      ? '<button onclick="vSurplusToVault(' + surplus + ')" style="background:var(--purple);color:#fff;border:none;border-radius:12px;padding:9px 14px;font-size:12px;font-weight:600;cursor:pointer">В резерв →</button>'
+      : '<button onclick="vDeficitFromVault(' + Math.abs(surplus) + ')" style="background:var(--red);color:#fff;border:none;border-radius:12px;padding:9px 14px;font-size:12px;font-weight:600;cursor:pointer">Списать →</button>';
+
+    var surpCard = '<div style="background:' + sBg + ';border:1.5px solid ' + sCol + '20;border-radius:16px;padding:14px;margin-bottom:14px">' +
+      '<div style="display:flex;justify-content:space-between;align-items:center">' +
+        '<div><div style="font-size:12px;color:var(--muted);margin-bottom:4px">Остаток за ' + now.toLocaleDateString('ru-RU',{month:'long'}) + '</div>' +
+        '<div style="font-size:20px;font-weight:700;color:' + sCol + '">' + (sPos?'+':'') + fmt(surplus) + '</div></div>' +
+        sBtn +
+      '</div>' +
+      '<div style="font-size:11px;color:var(--muted);margin-top:6px">' +
+        (sPos ? 'Добавить остаток в резерв (укажи курс $)' : 'Списать дефицит из резерва (укажи курс $)') +
+      '</div></div>';
+
+    var vHtml = '';
+    vltData.forEach(function(v, i) {
+      vHtml += '<div class="vcard">' +
+        '<div class="vcard-top">' +
+          '<div class="vem">' + v.emoji + '</div>' +
+          '<div class="vinf">' +
+            '<div class="vnm">' + v.name + '</div>' +
+            '<div class="vbal">' + fmtUSD(v.balance) + '</div>' +
+            '<div class="vsub">Резерв в USD</div>' +
+          '</div>' +
+        '</div>' +
+        '<div class="vacts">' +
+          '<button class="vbtn vbtn-add" onclick="vAdd(' + i + ')"><i class="ti ti-plus" style="font-size:13px"></i> Пополнить</button>' +
+          '<button class="vbtn vbtn-out" onclick="vWithdraw(' + i + ')"><i class="ti ti-minus" style="font-size:13px"></i> Снять</button>' +
+          '<button class="vbtn vbtn-inc" onclick="vToIncome(' + i + ')"><i class="ti ti-arrow-right" style="font-size:13px"></i> В доход</button>' +
+          '<button class="vbtn vbtn-tr" onclick="vTransfer(' + i + ')"><i class="ti ti-switch-horizontal" style="font-size:13px"></i> Перевод</button>' +
+        '</div>' +
+      '</div>';
+    });
+
+    el.innerHTML =
+      '<div class="vhero">' +
+        '<div class="vhero-l">Все резервы (USD)</div>' +
+        '<div class="vhero-n">' + fmtUSD(totUSD) + '</div>' +
+        '<div class="vhero-s">' + vltData.length + ' резерва</div>' +
+      '</div>' +
+      surpCard +
+      '<div class="sec">Мои резервы</div>' + vHtml +
+      '<button class="addgoal" style="border-color:var(--blue);color:var(--blue)" onclick="vAddNew()"><i class="ti ti-plus"></i> Добавить резерв</button>';
+  });
+}
+
+// Пополнить резерв (в любой момент)
+function vAdd(idx) {
+  var v = vltData[idx];
+  showModal('+ Пополнить резерв',
+    '<div style="text-align:center;margin-bottom:14px">' +
+      '<div style="font-size:28px">' + v.emoji + '</div>' +
+      '<div style="font-size:16px;font-weight:600;margin-top:4px">' + v.name + '</div>' +
+      '<div style="font-size:13px;color:var(--muted)">Сейчас: ' + fmtUSD(v.balance) + '</div>' +
+    '</div>' +
+    '<input class="minp" type="number" id="vAddAmt" placeholder="Сколько $ добавить" inputmode="decimal">' +
+    '<button class="mconfirm" style="background:var(--green)" onclick="doVAdd(' + v.id + ',' + v.balance + ')">Добавить</button>'
+  );
+}
+function doVAdd(id, bal) {
+  var amt = parseFloat(document.getElementById('vAddAmt').value);
+  if (!amt || amt <= 0) { toast('Введи сумму'); return; }
+  sb.from('vaults').update({balance: bal + amt}).eq('id', id).then(function() {
+    closeModal(); toast('✅ +' + fmtUSD(amt) + ' добавлено'); loadVlt();
+  });
+}
+
+// Снять из резерва
+function vWithdraw(idx) {
+  var v = vltData[idx];
+  showModal('− Снять из резерва',
+    '<div style="text-align:center;margin-bottom:14px">' +
+      '<div style="font-size:28px">' + v.emoji + '</div>' +
+      '<div style="font-size:16px;font-weight:600;margin-top:4px">' + v.name + '</div>' +
+      '<div style="font-size:13px;color:var(--muted)">Сейчас: ' + fmtUSD(v.balance) + '</div>' +
+    '</div>' +
+    '<input class="minp" type="number" id="vOutAmt" placeholder="Сколько $ снять" inputmode="decimal">' +
+    '<button class="mconfirm" style="background:var(--red)" onclick="doVWithdraw(' + v.id + ',' + v.balance + ')">Снять</button>'
+  );
+}
+function doVWithdraw(id, bal) {
+  var amt = parseFloat(document.getElementById('vOutAmt').value);
+  if (!amt || amt <= 0) { toast('Введи сумму'); return; }
+  if (amt > bal) { toast('⚠️ Недостаточно средств'); return; }
+  sb.from('vaults').update({balance: bal - amt}).eq('id', id).then(function() {
+    closeModal(); toast('✅ -' + fmtUSD(amt) + ' снято'); loadVlt();
+  });
+}
+
+// Вывести в доход ($ → грн)
+function vToIncome(idx) {
+  var v = vltData[idx];
+  showModal('→ Вывести в доход',
+    '<div style="text-align:center;margin-bottom:14px">' +
+      '<div style="font-size:28px">' + v.emoji + '</div>' +
+      '<div style="font-size:16px;font-weight:600;margin-top:4px">' + v.name + '</div>' +
+      '<div style="font-size:13px;color:var(--muted)">Сейчас: ' + fmtUSD(v.balance) + '</div>' +
+    '</div>' +
+    '<input class="minp" type="number" id="vIncAmt" placeholder="Сумма в $" inputmode="decimal" oninput="calcVInc()">' +
+    '<div class="mrow"><span class="mlbl">Курс 1$ =</span><input class="rateinp" style="flex:1" type="number" id="vIncRate" placeholder="грн" oninput="calcVInc()"><span class="mlbl">грн</span></div>' +
+    '<div id="vIncRes" style="text-align:center;font-size:14px;font-weight:600;color:var(--green);min-height:22px;margin-bottom:12px"></div>' +
+    '<button class="mconfirm" style="background:var(--purple)" onclick="doVToIncome(' + v.id + ',' + v.balance + ')">Вывести → на Карту</button>'
+  );
+}
+function calcVInc() {
+  var amt = parseFloat(document.getElementById('vIncAmt').value) || 0;
+  var rate = parseFloat(document.getElementById('vIncRate').value) || 0;
+  var el = document.getElementById('vIncRes');
+  if (el) el.textContent = (amt && rate) ? fmtUSD(amt) + ' × ' + rate + ' = ' + fmt(Math.round(amt*rate*100)/100) : '';
+}
+function doVToIncome(id, bal) {
+  var amt = parseFloat(document.getElementById('vIncAmt').value);
+  var rate = parseFloat(document.getElementById('vIncRate').value);
+  if (!amt || amt <= 0) { toast('Введи сумму'); return; }
+  if (!rate || rate <= 0) { toast('Введи курс'); return; }
+  if (amt > bal) { toast('⚠️ Недостаточно в резерве'); return; }
+  var grn = Math.round(amt * rate * 100) / 100;
+  sb.from('accounts').select('*').order('id').then(function(r) {
+    var card = (r.data||[]).find(function(a){ return a.name==='Карта'; }) || r.data[0];
+    return Promise.all([
+      sb.from('vaults').update({balance: bal - amt}).eq('id', id),
+      sb.from('accounts').update({balance: Number(card.balance) + grn}).eq('id', card.id),
+      sb.from('transactions').insert({type:'income', amount:grn, account_id:card.id,
+        comment:'Вывод из резерва (' + fmtUSD(amt) + ' × ' + rate + ')'})
+    ]);
+  }).then(function() { closeModal(); toast('✅ ' + fmtUSD(amt) + ' → ' + fmt(grn)); loadVlt(); });
+}
+
+// Перевод между резервами
+function vTransfer(idx) {
+  var from = vltData[idx];
+  var others = vltData.filter(function(v){ return v.id !== from.id; });
+  if (!others.length) { toast('Нет других резервов'); return; }
+  var opts = '';
+  others.forEach(function(v) { opts += '<option value="' + v.id + '">' + v.emoji + ' ' + v.name + ' (' + fmtUSD(v.balance) + ')</option>'; });
+  showModal('⇄ Перевод между резервами',
+    '<div style="text-align:center;margin-bottom:14px">' +
+      '<div style="font-size:13px;color:var(--muted)">Из резерва: ' + from.emoji + ' ' + from.name + '</div>' +
+      '<div style="font-size:14px;font-weight:600">' + fmtUSD(from.balance) + '</div>' +
+    '</div>' +
+    '<input class="minp" type="number" id="vTrAmt" placeholder="Сумма в $" inputmode="decimal">' +
+    '<div style="margin-bottom:14px">' +
+      '<div style="font-size:12px;color:var(--muted);margin-bottom:6px">В резерв:</div>' +
+      '<select id="vTrTo" style="width:100%;padding:12px;border:1.5px solid var(--border);border-radius:12px;font-size:14px;outline:none;background:var(--card)">' + opts + '</select>' +
+    '</div>' +
+    '<button class="mconfirm" style="background:var(--blue)" onclick="doVTransfer(' + from.id + ',' + from.balance + ')">Перевести</button>'
+  );
+}
+function doVTransfer(fromId, fromBal) {
+  var amt = parseFloat(document.getElementById('vTrAmt').value);
+  var toId = parseInt(document.getElementById('vTrTo').value);
+  if (!amt || amt <= 0) { toast('Введи сумму'); return; }
+  if (amt > fromBal) { toast('⚠️ Недостаточно средств'); return; }
+  var toVault = vltData.find(function(v){ return v.id === toId; });
+  if (!toVault) { toast('Ошибка: резерв не найден'); return; }
+  Promise.all([
+    sb.from('vaults').update({balance: fromBal - amt}).eq('id', fromId),
+    sb.from('vaults').update({balance: Number(toVault.balance) + amt}).eq('id', toId)
+  ]).then(function() { closeModal(); toast('✅ ' + fmtUSD(amt) + ' переведено'); loadVlt(); });
+}
+
+// Добавить новый резерв
+function vAddNew() {
+  var nm = prompt('Название резерва:'); if (!nm) return;
+  var em = prompt('Эмодзи:') || '🏦';
+  var bal = parseFloat(prompt('Начальный баланс ($):') || '0') || 0;
+  sb.from('vaults').insert({name:nm, emoji:em, balance:bal, currency:'USD'})
+    .then(function() { toast('✅ Резерв добавлен!'); loadVlt(); });
+}
+
+// Остаток месяца → в резерв
+function vSurplusToVault(surplus) {
+  var opts = '';
+  vltData.forEach(function(v) { opts += '<option value="' + v.id + '">' + v.emoji + ' ' + v.name + ' (' + fmtUSD(v.balance) + ')</option>'; });
+  showModal('+ Добавить остаток в резерв',
+    '<div style="background:#F0FFF4;border-radius:12px;padding:12px;margin-bottom:12px;text-align:center">' +
+      '<div style="font-size:13px;color:var(--green)">Остаток за месяц</div>' +
+      '<div style="font-size:20px;font-weight:700;color:var(--green)">+' + fmt(surplus) + '</div>' +
+    '</div>' +
+    '<div class="mrow"><span class="mlbl">Курс 1$ =</span><input class="rateinp" style="flex:1" type="number" id="vSRate" placeholder="грн" oninput="calcVS(' + surplus + ')"><span class="mlbl">грн</span></div>' +
+    '<div id="vSRes" style="text-align:center;font-size:14px;font-weight:600;color:var(--purple);min-height:22px;margin-bottom:12px"></div>' +
+    '<div style="margin-bottom:14px"><div style="font-size:12px;color:var(--muted);margin-bottom:6px">В резерв:</div>' +
+    '<select id="vSTo" style="width:100%;padding:12px;border:1.5px solid var(--border);border-radius:12px;font-size:14px;outline:none;background:var(--card)">' + opts + '</select></div>' +
+    '<button class="mconfirm" style="background:var(--purple)" onclick="doVSurplus(' + surplus + ')">Добавить в резерв</button>'
+  );
+}
+function calcVS(surplus) {
+  var rate = parseFloat(document.getElementById('vSRate').value) || 0;
+  var el = document.getElementById('vSRes');
+  if (el) el.textContent = rate ? fmt(surplus) + ' ÷ ' + rate + ' = ' + fmtUSD(surplus/rate) : '';
+}
+function doVSurplus(surplus) {
+  var rate = parseFloat(document.getElementById('vSRate').value);
+  var toId = parseInt(document.getElementById('vSTo').value);
+  if (!rate || rate <= 0) { toast('Введи курс'); return; }
+  var usd = Math.round(surplus / rate * 100) / 100;
+  var toVault = vltData.find(function(v){ return v.id === toId; });
+  if (!toVault) { toast('Ошибка'); return; }
+  sb.from('vaults').update({balance: Number(toVault.balance) + usd}).eq('id', toId)
+    .then(function() { closeModal(); toast('✅ +' + fmtUSD(usd) + ' → ' + toVault.name); loadVlt(); });
+}
+
+// Дефицит → списать с резерва
+function vDeficitFromVault(deficit) {
+  var withMoney = vltData.filter(function(v){ return Number(v.balance) > 0; });
+  if (!withMoney.length) { toast('Резервы пусты'); return; }
+  var opts = '';
+  withMoney.forEach(function(v) { opts += '<option value="' + v.id + '">' + v.emoji + ' ' + v.name + ' (' + fmtUSD(v.balance) + ')</option>'; });
+  showModal('− Списать дефицит из резерва',
+    '<div style="background:#FFF0F0;border-radius:12px;padding:12px;margin-bottom:12px;text-align:center">' +
+      '<div style="font-size:13px;color:var(--red)">Дефицит за месяц</div>' +
+      '<div style="font-size:20px;font-weight:700;color:var(--red)">-' + fmt(deficit) + '</div>' +
+    '</div>' +
+    '<div class="mrow"><span class="mlbl">Курс 1$ =</span><input class="rateinp" style="flex:1" type="number" id="vDRate" placeholder="грн" oninput="calcVD(' + deficit + ')"><span class="mlbl">грн</span></div>' +
+    '<div id="vDRes" style="text-align:center;font-size:14px;font-weight:600;color:var(--red);min-height:22px;margin-bottom:12px"></div>' +
+    '<div style="margin-bottom:14px"><div style="font-size:12px;color:var(--muted);margin-bottom:6px">Из резерва:</div>' +
+    '<select id="vDFrom" style="width:100%;padding:12px;border:1.5px solid var(--border);border-radius:12px;font-size:14px;outline:none;background:var(--card)">' + opts + '</select></div>' +
+    '<button class="mconfirm" style="background:var(--red)" onclick="doVDeficit(' + deficit + ')">Списать из резерва</button>'
+  );
+}
+function calcVD(deficit) {
+  var rate = parseFloat(document.getElementById('vDRate').value) || 0;
+  var el = document.getElementById('vDRes');
+  if (el) el.textContent = rate ? fmt(deficit) + ' ÷ ' + rate + ' = ' + fmtUSD(deficit/rate) : '';
+}
+function doVDeficit(deficit) {
+  var rate = parseFloat(document.getElementById('vDRate').value);
+  var fromId = parseInt(document.getElementById('vDFrom').value);
+  if (!rate || rate <= 0) { toast('Введи курс'); return; }
+  var usd = Math.round(deficit / rate * 100) / 100;
+  var fromVault = vltData.find(function(v){ return v.id === fromId; });
+  if (!fromVault) { toast('Ошибка'); return; }
+  if (usd > Number(fromVault.balance)) { toast('⚠️ Недостаточно в резерве'); return; }
+  var grn = Math.round(usd * rate * 100) / 100;
+  sb.from('accounts').select('*').order('id').then(function(r) {
+    var card = (r.data||[]).find(function(a){ return a.name==='Карта'; }) || r.data[0];
+    return Promise.all([
+      sb.from('vaults').update({balance: Number(fromVault.balance) - usd}).eq('id', fromId),
+      sb.from('accounts').update({balance: Number(card.balance) + grn}).eq('id', card.id),
+      sb.from('transactions').insert({type:'income', amount:grn, account_id:card.id,
+        comment:'Покрытие дефицита из ' + fromVault.name + ' (' + fmtUSD(usd) + ' × ' + rate + ')'})
+    ]);
+  }).then(function() { closeModal(); toast('✅ Дефицит покрыт из ' + fromVault.name); loadVlt(); });
+}
+
 // ── SAVINGS ─────────────────────────────────────────────
 function loadSav() {
   var el=document.getElementById('savEl');
   el.innerHTML='<div class="spin"></div>';
-  var now=new Date();
-  var r=monthRange(now);
+  var now=new Date(); var r=monthRange(now);
   Promise.all([
     sb.from('savings_goals').select('*').order('created_at'),
     sb.from('transactions').select('type,amount').gte('created_at',r.from).lte('created_at',r.to).in('type',['income','expense'])
   ]).then(function(res){
-    var goals=res[0].data||[];
-    var mths=res[1].data||[];
+    var goals=res[0].data||[], mths=res[1].data||[];
     var totSaved=goals.reduce(function(s,g){ return s+Number(g.current_amount); },0);
     var mI=mths.filter(function(t){ return t.type==='income'; }).reduce(function(s,t){ return s+Number(t.amount); },0);
     var mE=mths.filter(function(t){ return t.type==='expense'; }).reduce(function(s,t){ return s+Number(t.amount); },0);
-    var surplus=mI-mE;
-    var sPos=surplus>=0;
-    var sCol=sPos?'var(--green)':'var(--red)';
-    var sBg=sPos?'#F0FFF4':'#FFF0F0';
+    var surplus=mI-mE, sPos=surplus>=0;
+    var sCol=sPos?'var(--green)':'var(--red)', sBg=sPos?'#F0FFF4':'#FFF0F0';
     var sBtn=sPos
-      ? '<button onclick="openDistribute('+surplus+')" style="background:var(--purple);color:#fff;border:none;border-radius:12px;padding:9px 14px;font-size:13px;font-weight:600;cursor:pointer">Распределить →</button>'
-      : '<button onclick="openDeduct('+Math.abs(surplus)+')" style="background:var(--red);color:#fff;border:none;border-radius:12px;padding:9px 14px;font-size:13px;font-weight:600;cursor:pointer">Списать с цели →</button>';
+      ? '<button onclick="openDistribute('+surplus+')" style="background:var(--purple);color:#fff;border:none;border-radius:12px;padding:9px 14px;font-size:12px;font-weight:600;cursor:pointer">Распределить →</button>'
+      : '<button onclick="openDeduct('+Math.abs(surplus)+')" style="background:var(--red);color:#fff;border:none;border-radius:12px;padding:9px 14px;font-size:12px;font-weight:600;cursor:pointer">Списать →</button>';
     var surpHtml='<div class="surpcard" style="background:'+sBg+';border:1.5px solid '+sCol+'20">'+
       '<div style="display:flex;justify-content:space-between;align-items:center">'+
-        '<div>'+
-          '<div style="font-size:12px;color:var(--muted);margin-bottom:4px">Остаток за '+now.toLocaleDateString('ru-RU',{month:'long'})+'</div>'+
-          '<div style="font-size:22px;font-weight:700;color:'+sCol+'">'+(sPos?'+':'')+fmt(surplus)+'</div>'+
-        '</div>'+sBtn+
+        '<div><div style="font-size:12px;color:var(--muted);margin-bottom:4px">Остаток за '+now.toLocaleDateString('ru-RU',{month:'long'})+'</div>'+
+        '<div style="font-size:22px;font-weight:700;color:'+sCol+'">'+(sPos?'+':'')+fmt(surplus)+'</div></div>'+sBtn+
       '</div>'+
       '<div style="font-size:12px;color:var(--muted);margin-top:8px">'+
-        (sPos?'Разложи остаток по целям накоплений':'Расходы превысили доходы — можно списать разницу с накоплений')+
-      '</div>'+
-    '</div>';
+        (sPos?'Разложи остаток по целям накоплений':'Расходы превысили доходы — можно списать разницу')+
+      '</div></div>';
     var gHtml='';
-    if (!goals.length) {
-      gHtml='<div class="empty"><i class="ti ti-piggy-bank"></i>Нет целей. Добавь первую!</div>';
-    } else {
-      goals.forEach(function(g){
-        var pct=g.target_amount>0?Math.min(100,Math.round(g.current_amount/g.target_amount*100)):0;
-        var bc=pct>=100?'var(--green)':pct>=50?'var(--blue)':'var(--purple)';
-        gHtml+='<div class="goalc">'+
-          '<div class="goalh">'+
-            '<div class="goalem">'+g.emoji+'</div>'+
-            '<div class="goali"><div class="goalnm">'+g.name+'</div><div class="goalpt">'+fmt(g.current_amount)+' / '+fmt(g.target_amount)+'</div></div>'+
-            '<div class="goalpct" style="color:'+bc+'">'+(pct>=100?'✅':pct+'%')+'</div>'+
-          '</div>'+
-          '<div class="goalbar"><div class="goalbf" style="width:'+pct+'%;background:'+bc+'"></div></div>'+
-          '<div class="goalacts">'+
-            '<button class="gbtn gbtn-a" onclick="topup('+g.id+',\''+g.name+'\','+g.current_amount+')">+ Пополнить</button>'+
-            '<button class="gbtn gbtn-t" onclick="takeGoal('+g.id+',\''+g.name+'\','+g.current_amount+')">− Снять</button>'+
-          '</div>'+
-        '</div>';
-      });
-    }
+    if (!goals.length) { gHtml='<div class="empty"><i class="ti ti-piggy-bank"></i>Нет целей. Добавь первую!</div>'; }
+    else { goals.forEach(function(g){
+      var pct=g.target_amount>0?Math.min(100,Math.round(g.current_amount/g.target_amount*100)):0;
+      var bc=pct>=100?'var(--green)':pct>=50?'var(--blue)':'var(--purple)';
+      gHtml+='<div class="goalc">'+
+        '<div class="goalh"><div class="goalem">'+g.emoji+'</div>'+
+        '<div class="goali"><div class="goalnm">'+g.name+'</div><div class="goalpt">'+fmt(g.current_amount)+' / '+fmt(g.target_amount)+'</div></div>'+
+        '<div class="goalpct" style="color:'+bc+'">'+(pct>=100?'✅':pct+'%')+'</div></div>'+
+        '<div class="goalbar"><div class="goalbf" style="width:'+pct+'%;background:'+bc+'"></div></div>'+
+        '<div class="goalacts">'+
+          '<button class="gbtn gbtn-a" onclick="topup('+g.id+',\''+g.name+'\','+g.current_amount+')">+ Пополнить</button>'+
+          '<button class="gbtn gbtn-t" onclick="takeGoal('+g.id+',\''+g.name+'\','+g.current_amount+')">− Снять</button>'+
+        '</div></div>';
+    }); }
     cmGoals=goals; cmSurplus=surplus;
-    el.innerHTML=
-      '<div class="savhero"><div class="savhl">Всего накоплено</div><div class="savhn">'+fmt(totSaved)+'</div><div class="savhs">Активных целей: '+goals.length+'</div></div>'+
-      surpHtml+
-      '<div class="sec">Мои цели</div>'+gHtml+
+    el.innerHTML='<div class="savhero"><div class="savhl">Всего накоплено</div><div class="savhn">'+fmt(totSaved)+'</div><div class="savhs">Активных целей: '+goals.length+'</div></div>'+
+      surpHtml+'<div class="sec">Мои цели</div>'+gHtml+
       '<button class="addgoal" onclick="addGoal()"><i class="ti ti-plus"></i> Добавить цель</button>';
   });
 }
-
 function addGoal() {
   var nm=prompt('Название цели:'); if (!nm) return;
-  var em=prompt('Эмодзи (🚗 🏖️ 💻 🎯):')||'🎯';
+  var em=prompt('Эмодзи:')||'🎯';
   var tgt=parseFloat(prompt('Целевая сумма (грн):')); if (!tgt||tgt<=0){ toast('Введи сумму'); return; }
   sb.from('savings_goals').insert({name:nm,emoji:em,target_amount:tgt,current_amount:0}).then(function(){ toast('✅ Цель добавлена!'); loadSav(); });
 }
-
-function showAccPicker(title, cb) {
+function showAccPicker(title,cb) {
   sb.from('accounts').select('*').order('id').then(function(r){
     var h='';
     (r.data||[]).forEach(function(a){
@@ -690,14 +881,13 @@ function showAccPicker(title, cb) {
         '<div style="flex:1"><div style="font-size:14px;font-weight:500">'+a.name+'</div><div style="font-size:12px;color:var(--muted)">'+fmt(a.balance)+'</div></div>'+
         '<i class="ti ti-chevron-right" style="color:var(--muted)"></i></div>';
     });
-    showModal(title, h, cb);
+    showModal(title,h,cb);
   });
 }
-
-function topup(goalId, goalName, curAmt) {
+function topup(goalId,goalName,curAmt) {
   var amt=parseFloat(prompt('Сколько положить в "'+goalName+'" (грн)?'));
   if (!amt||amt<=0) return;
-  showAccPicker('С какого счёта?', function(accId){
+  showAccPicker('С какого счёта?',function(accId){
     sb.from('accounts').select('balance').eq('id',accId).single().then(function(r){
       if (Number(r.data.balance)<amt){ toast('⚠️ Недостаточно средств'); return; }
       Promise.all([
@@ -708,12 +898,11 @@ function topup(goalId, goalName, curAmt) {
     });
   });
 }
-
-function takeGoal(goalId, goalName, curAmt) {
+function takeGoal(goalId,goalName,curAmt) {
   var amt=parseFloat(prompt('Сколько снять из "'+goalName+'" (грн)?'));
   if (!amt||amt<=0) return;
   if (curAmt<amt){ toast('⚠️ Недостаточно в накоплениях'); return; }
-  showAccPicker('На какой счёт?', function(accId){
+  showAccPicker('На какой счёт?',function(accId){
     sb.from('accounts').select('balance').eq('id',accId).single().then(function(r){
       Promise.all([
         sb.from('savings_goals').update({current_amount:curAmt-amt}).eq('id',goalId),
@@ -723,52 +912,41 @@ function takeGoal(goalId, goalName, curAmt) {
     });
   });
 }
-
-// Распределить остаток по целям (плюс)
 function openDistribute(surplus) {
-  var goals=cmGoals||[];
-  if (!goals.length){ toast('Сначала добавь цели'); return; }
+  var goals=cmGoals||[]; if (!goals.length){ toast('Сначала добавь цели'); return; }
   var h='<div style="background:#F0FFF4;border-radius:12px;padding:12px;margin-bottom:14px;display:flex;justify-content:space-between;align-items:center">'+
-    '<div style="font-size:14px;color:var(--green);font-weight:500">Доступно для распределения</div>'+
-    '<div style="font-size:18px;font-weight:700;color:var(--green)" id="dleft">+'+fmt(surplus)+'</div>'+
-  '</div>';
+    '<div style="font-size:13px;color:var(--green);font-weight:500">Доступно</div>'+
+    '<div style="font-size:18px;font-weight:700;color:var(--green)" id="dleft">+'+fmt(surplus)+'</div></div>';
   goals.forEach(function(g){
     var rem=Math.max(0,Number(g.target_amount)-Number(g.current_amount));
     h+='<div style="background:#f8f8f8;border-radius:12px;padding:12px;margin-bottom:8px">'+
-      '<div style="display:flex;justify-content:space-between;margin-bottom:8px">'+
-        '<div style="font-size:14px;font-weight:500">'+g.emoji+' '+g.name+'</div>'+
-        '<div style="font-size:11px;color:var(--muted)">нужно '+fmt(rem)+'</div>'+
-      '</div>'+
-      '<input type="number" id="di_'+g.id+'" placeholder="0" oninput="updLeft('+surplus+')" style="width:100%;border:1.5px solid #ddd;border-radius:8px;padding:8px;font-size:14px;outline:none">'+
-    '</div>';
+      '<div style="display:flex;justify-content:space-between;margin-bottom:8px"><div style="font-size:14px;font-weight:500">'+g.emoji+' '+g.name+'</div>'+
+      '<div style="font-size:11px;color:var(--muted)">нужно '+fmt(rem)+'</div></div>'+
+      '<input type="number" id="di_'+g.id+'" placeholder="0" oninput="updLeft('+surplus+')" style="width:100%;border:1.5px solid #ddd;border-radius:8px;padding:8px;font-size:14px;outline:none"></div>';
   });
   h+='<div id="dwarn" style="color:var(--red);font-size:13px;margin-bottom:10px;display:none">⚠️ Превышает доступную сумму</div>'+
     '<button onclick="confirmDist('+surplus+')" style="width:100%;background:var(--purple);color:#fff;border:none;border-radius:14px;padding:14px;font-size:15px;font-weight:600;cursor:pointer">Распределить →</button>';
-  showModal('Распределить '+fmt(surplus), h);
+  showModal('Распределить '+fmt(surplus),h);
 }
-
 function updLeft(surplus) {
   var tot=0;
   document.querySelectorAll('[id^="di_"]').forEach(function(i){ tot+=parseFloat(i.value)||0; });
   var left=surplus-tot;
   var el=document.getElementById('dleft');
   if (el){ el.textContent=(left>=0?'+':'')+fmt(left); el.style.color=left>=0?'var(--green)':'var(--red)'; }
-  var w=document.getElementById('dwarn');
-  if (w) w.style.display=left<0?'block':'none';
+  var w=document.getElementById('dwarn'); if (w) w.style.display=left<0?'block':'none';
 }
-
 function confirmDist(surplus) {
-  var goals=cmGoals||[];
-  var tot=0, dists=[];
+  var goals=cmGoals||[]; var tot=0, dists=[];
   goals.forEach(function(g){
-    var v=parseFloat(document.getElementById('di_'+g.id)&&document.getElementById('di_'+g.id).value)||0;
+    var inp=document.getElementById('di_'+g.id);
+    var v=inp?parseFloat(inp.value)||0:0;
     if (v>0){ dists.push({goal:g,amt:v}); tot+=v; }
   });
   if (tot>surplus){ toast('⚠️ Превышает остаток'); return; }
   if (!dists.length){ closeModal(); return; }
   sb.from('accounts').select('*').order('id').then(function(r){
-    var accs=r.data||[];
-    var card=accs.find(function(a){ return a.name==='Карта'; })||accs[0];
+    var card=r.data.find(function(a){ return a.name==='Карта'; })||r.data[0];
     var ps=[];
     dists.forEach(function(d){
       ps.push(sb.from('savings_goals').update({current_amount:Number(d.goal.current_amount)+d.amt}).eq('id',d.goal.id));
@@ -778,36 +956,26 @@ function confirmDist(surplus) {
     return Promise.all(ps);
   }).then(function(){ closeModal(); toast('✅ '+fmt(tot)+' распределено!'); loadSav(); });
 }
-
-// Списать дефицит с накоплений (минус)
 function openDeduct(deficit) {
   var goals=cmGoals||[];
-  if (!goals.length){ toast('Нет накоплений для списания'); return; }
-  var h='<div style="background:#FFF0F0;border-radius:12px;padding:12px;margin-bottom:14px">'+
+  var gWithMoney=goals.filter(function(g){ return Number(g.current_amount)>0; });
+  if (!gWithMoney.length){ toast('Нет накоплений для списания'); return; }
+  var h='<div style="background:#FFF0F0;border-radius:12px;padding:12px;margin-bottom:14px;text-align:center">'+
     '<div style="font-size:14px;color:var(--red);font-weight:500;margin-bottom:4px">Дефицит за месяц</div>'+
-    '<div style="font-size:20px;font-weight:700;color:var(--red)">-'+fmt(deficit)+'</div>'+
-    '<div style="font-size:12px;color:var(--muted);margin-top:6px">Выбери цель, с которой списать недостаток</div>'+
-  '</div>';
-  goals.forEach(function(g){
-    if (Number(g.current_amount)<=0) return;
+    '<div style="font-size:20px;font-weight:700;color:var(--red)">-'+fmt(deficit)+'</div></div>';
+  gWithMoney.forEach(function(g){
     h+='<div class="marc" onclick="confirmDeduct('+g.id+',\''+g.name+'\','+g.current_amount+','+deficit+')">'+
       '<span style="font-size:24px">'+g.emoji+'</span>'+
-      '<div style="flex:1">'+
-        '<div style="font-size:14px;font-weight:500">'+g.name+'</div>'+
-        '<div style="font-size:12px;color:var(--muted)">Накоплено: '+fmt(g.current_amount)+'</div>'+
-      '</div>'+
-      '<i class="ti ti-chevron-right" style="color:var(--muted)"></i>'+
-    '</div>';
+      '<div style="flex:1"><div style="font-size:14px;font-weight:500">'+g.name+'</div><div style="font-size:12px;color:var(--muted)">'+fmt(g.current_amount)+'</div></div>'+
+      '<i class="ti ti-chevron-right" style="color:var(--muted)"></i></div>';
   });
-  showModal('Списать дефицит', h);
+  showModal('Списать дефицит',h);
 }
-
-function confirmDeduct(goalId, goalName, curAmt, deficit) {
+function confirmDeduct(goalId,goalName,curAmt,deficit) {
   closeModal();
-  var toDeduct=Math.min(deficit, curAmt);
+  var toDeduct=Math.min(deficit,curAmt);
   sb.from('accounts').select('*').order('id').then(function(r){
-    var accs=r.data||[];
-    var card=accs.find(function(a){ return a.name==='Карта'; })||accs[0];
+    var card=r.data.find(function(a){ return a.name==='Карта'; })||r.data[0];
     return Promise.all([
       sb.from('savings_goals').update({current_amount:curAmt-toDeduct}).eq('id',goalId),
       sb.from('accounts').update({balance:Number(card.balance)+toDeduct}).eq('id',card.id),
