@@ -296,9 +296,9 @@ function loadHome() {
     sb.from('transactions').select('type,amount').gte('created_at',r.from).lte('created_at',r.to).in('type',['income','expense'])
   ]).then(function(res){
     var accs=res[0].data||[], txs=res[1].data||[], mths=res[2].data||[];
-    var bal=accs.reduce(function(s,a){ return s+Number(a.balance); },0);
     var inc=mths.filter(function(t){ return t.type==='income'; }).reduce(function(s,t){ return s+Number(t.amount); },0);
     var exp=mths.filter(function(t){ return t.type==='expense'; }).reduce(function(s,t){ return s+Number(t.amount); },0);
+    var bal=inc-exp; // баланс = итог текущего месяца
     var aHtml='';
     accs.forEach(function(a){ aHtml+='<div class="acard"><div class="ae">'+a.emoji+'</div><div class="an">'+a.name+'</div><div class="av">'+fmt(a.balance)+'</div></div>'; });
     var tHtml='';
@@ -317,9 +317,9 @@ function loadHome() {
           '<button class="delbtn" onclick="delTx('+t.id+','+t.account_id+','+t.amount+',"'+t.type+'")"><i class="ti ti-trash" style="font-size:15px"></i></button>'+
         '</div></div>';
     }); }
-    el.innerHTML='<div class="bal"><div class="bal-l">Общий баланс</div><div class="bal-n">'+fmt(bal)+'</div>'+
-      '<div class="bal-row"><div class="bal-s"><div class="bal-sl">Доходы (месяц)</div><div class="bal-sv">+'+fmt(inc)+'</div></div>'+
-      '<div class="bal-s"><div class="bal-sl">Расходы (месяц)</div><div class="bal-sv">-'+fmt(exp)+'</div></div></div></div>'+
+    el.innerHTML='<div class="bal" style="background:' + (bal>=0?'var(--blue)':'#c0392b') + '"><div class="bal-l">Итог за ' + now.toLocaleDateString('ru-RU',{month:'long'}) + '</div><div class="bal-n">'+(bal>=0?'+':'')+fmt(bal)+'</div>'+
+      '<div class="bal-row"><div class="bal-s"><div class="bal-sl">Доходы</div><div class="bal-sv">+'+fmt(inc)+'</div></div>'+
+      '<div class="bal-s"><div class="bal-sl">Расходы</div><div class="bal-sv">-'+fmt(exp)+'</div></div></div></div>'+
       '<div class="qb"><button class="qb-e" onclick="go(\'add\');setType(\'expense\')"><i class="ti ti-minus" style="font-size:15px"></i> Расход</button>'+
       '<button class="qb-i" onclick="go(\'add\');setType(\'income\')"><i class="ti ti-plus" style="font-size:15px"></i> Доход</button></div>'+
       '<div class="sec">Счета</div><div class="acg">'+aHtml+'</div>'+
