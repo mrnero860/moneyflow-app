@@ -293,14 +293,28 @@ function loadHome() {
   Promise.all([
     sb.from('accounts').select('*').order('id'),
     sb.from('transactions').select('*,categories(name,emoji),accounts(name,emoji)').order('created_at',{ascending:false}).limit(15),
-    sb.from('transactions').select('type,amount').gte('created_at',r.from).lte('created_at',r.to).in('type',['income','expense'])
+    sb.from('transactions').select('type,amount,account_id').gte('created_at',r.from).lte('created_at',r.to).in('type',['income','expense'])
   ]).then(function(res){
     var accs=res[0].data||[], txs=res[1].data||[], mths=res[2].data||[];
     var inc=mths.filter(function(t){ return t.type==='income'; }).reduce(function(s,t){ return s+Number(t.amount); },0);
     var exp=mths.filter(function(t){ return t.type==='expense'; }).reduce(function(s,t){ return s+Number(t.amount); },0);
     var bal=inc-exp; // баланс = итог текущего месяца
+
+    // Считаем баланс каждого счёта только за текущий месяц
+    var accMonthBal = {};
+    mths.forEach(function(t) {
+      if (!accMonthBal[t.account_id]) accMonthBal[t.account_id] = 0;
+      if (t.type==='income') accMonthBal[t.account_id] += Number(t.amount);
+      else accMonthBal[t.account_id] -= Number(t.amount);
+    });
+
     var aHtml='';
-    accs.forEach(function(a){ aHtml+='<div class="acard"><div class="ae">'+a.emoji+'</div><div class="an">'+a.name+'</div><div class="av">'+fmt(a.balance)+'</div></div>'; });
+    accs.forEach(function(a) {
+      var monthBal = accMonthBal[a.id] || 0;
+      var balCol = monthBal >= 0 ? 'var(--text)' : 'var(--red)';
+      aHtml += '<div class="acard"><div class="ae">'+a.emoji+'</div><div class="an">'+a.name+'</div>'+
+        '<div class="av" style="color:'+balCol+'">'+(monthBal>=0?'':'')+fmt(monthBal)+'</div></div>';
+    });
     var tHtml='';
     if (!txs.length) { tHtml='<div class="empty"><i class="ti ti-receipt-off"></i>Транзакций пока нет</div>'; }
     else { txs.forEach(function(t){
