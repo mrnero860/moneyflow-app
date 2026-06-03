@@ -343,10 +343,8 @@ function loadHome() {
 
 function delTx(id,accId,amt,type) {
   if (!confirm('Удалить транзакцию?')) return;
-  sb.from('accounts').select('balance').eq('id',accId).single().then(function(r){
-    var nb=type==='expense'?Number(r.data.balance)+Number(amt):Number(r.data.balance)-Number(amt);
-    return Promise.all([sb.from('transactions').delete().eq('id',id),sb.from('accounts').update({balance:nb}).eq('id',accId)]);
-  }).then(function(){ toast('🗑 Удалено'); loadHome(); });
+  sb.from('transactions').delete().eq('id',id)
+    .then(function(){ toast('🗑 Удалено'); loadHome(); });
 }
 
 // ── ADD ─────────────────────────────────────────────────
@@ -354,11 +352,23 @@ function loadAdd() {
   selCat=null; selAcc=null;
   document.getElementById('amtIn').value='';
   document.getElementById('comIn').value='';
+  var r2 = monthRange(new Date());
   Promise.all([
     sb.from('categories').select('*').eq('type',txType).order('id'),
-    sb.from('accounts').select('*').order('id')
+    sb.from('accounts').select('*').order('id'),
+    sb.from('transactions').select('type,amount,account_id')
+      .gte('created_at',r2.from).lte('created_at',r2.to)
+      .in('type',['income','expense'])
   ]).then(function(res){
-    var cats=res[0].data||[], accs=res[1].data||[];
+    var cats=res[0].data||[], accs=res[1].data||[], mths=res[2].data||[];
+
+    // Считаем месячный баланс по каждому счёту
+    var accBal = {};
+    mths.forEach(function(t) {
+      if (!accBal[t.account_id]) accBal[t.account_id] = 0;
+      accBal[t.account_id] += t.type==='income' ? Number(t.amount) : -Number(t.amount);
+    });
+
     var ch='';
     cats.forEach(function(c){
       ch+='<div class="catr" data-id="'+c.id+'" data-nm="'+c.name+'" data-em="'+c.emoji+'" onclick="pickCat(this)">'+
@@ -367,11 +377,15 @@ function loadAdd() {
     ch+='<div class="addcat" onclick="addCat()"><div class="addcati"><i class="ti ti-plus" style="font-size:17px;color:#fff"></i></div>'+
       '<div style="font-size:15px;color:var(--blue);font-weight:500">Добавить категорию</div></div>';
     document.getElementById('catEl').innerHTML=ch;
+
     var ah='';
     accs.forEach(function(a){
+      var mb = accBal[a.id] || 0;
+      var col = mb >= 0 ? 'var(--muted)' : 'var(--red)';
       ah+='<div class="accr" data-id="'+a.id+'" onclick="pickAcc(this)">'+
         '<div style="font-size:22px">'+a.emoji+'</div>'+
-        '<div class="accri"><div class="accrnm">'+a.name+'</div><div class="accrsb">'+fmt(a.balance)+'</div></div>'+
+        '<div class="accri"><div class="accrnm">'+a.name+'</div>'+
+        '<div class="accrsb" style="color:'+col+'">'+(mb>=0?'+':'')+fmt(mb)+' за месяц</div></div>'+
         '<i class="ti ti-circle-check accrchk"></i></div>';
     });
     document.getElementById('accEl').innerHTML=ah;
@@ -418,18 +432,14 @@ function saveTx() {
   }
   sb.from('transactions').insert({type:txType,amount:finalAmt,account_id:accId,category_id:catId,comment:com}).then(function(r){
     if (r.error){ toast('Ошибка сохранения'); return; }
-    sb.from('accounts').select('balance').eq('id',accId).single().then(function(r2){
-      var nb=txType==='expense'?Number(r2.data.balance)-finalAmt:Number(r2.data.balance)+finalAmt;
-      sb.from('accounts').update({balance:nb}).eq('id',accId).then(function(){
-        toast('✅ Сохранено!');
-        document.getElementById('amtIn').value='';
-        document.getElementById('comIn').value='';
-        document.getElementById('rateIn').value='';
-        selCat=null; selAcc=null;
-        document.querySelectorAll('.catr').forEach(function(r){ r.classList.remove('se','si'); });
-        document.querySelectorAll('.accr').forEach(function(r){ r.classList.remove('on'); });
-      });
-    });
+    toast('✅ Сохранено!');
+    document.getElementById('amtIn').value='';
+    document.getElementById('comIn').value='';
+    document.getElementById('rateIn').value='';
+    selCat=null; selAcc=null;
+    document.querySelectorAll('.catr').forEach(function(r){ r.classList.remove('se','si'); });
+    document.querySelectorAll('.accr').forEach(function(r){ r.classList.remove('on'); });
+    loadAdd(); // обновляем балансы в форме
   });
 }
 
@@ -557,10 +567,8 @@ function moreHist(){ histOffset+=histLimit; loadHist(false); }
 function setHF(f){ histFilter=f; loadHist(true); }
 function delTxH(id,accId,amt,type) {
   if (!confirm('Удалить транзакцию?')) return;
-  sb.from('accounts').select('balance').eq('id',accId).single().then(function(r){
-    var nb=type==='expense'?Number(r.data.balance)+Number(amt):Number(r.data.balance)-Number(amt);
-    return Promise.all([sb.from('transactions').delete().eq('id',id),sb.from('accounts').update({balance:nb}).eq('id',accId)]);
-  }).then(function(){ toast('🗑 Удалено'); loadHist(true); });
+  sb.from('transactions').delete().eq('id',id)
+    .then(function(){ toast('🗑 Удалено'); loadHist(true); });
 }
 
 // ── VAULTS ──────────────────────────────────────────────
