@@ -54,6 +54,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,sans-serif;background:var(--bg
 .ttab{flex:1;padding:8px;text-align:center;font-size:13px;border-radius:10px;cursor:pointer;color:var(--muted);font-weight:500;transition:all .15s}
 .ttab.exp{background:var(--red);color:#fff}
 .ttab.inc{background:var(--green);color:#fff}
+.ttab.tr{background:var(--purple);color:#fff}
 .amti{width:100%;text-align:center;font-size:36px;font-weight:700;border:none;background:transparent;color:var(--text);outline:none}
 .cur-row{display:flex;gap:6px;justify-content:center;margin:6px 0 4px}
 .cb{padding:6px 12px;border:1.5px solid var(--border);border-radius:20px;font-size:12px;background:var(--card);cursor:pointer;color:var(--muted);font-weight:500;transition:all .15s}
@@ -177,9 +178,10 @@ body{font-family:-apple-system,BlinkMacSystemFont,sans-serif;background:var(--bg
 <div class="pg" id="pg-add">
   <div class="wrap">
     <div style="background:var(--card);border-radius:16px;padding:16px">
-      <div class="ttabs">
+      <div class="ttabs" style="flex-wrap:nowrap">
         <div class="ttab exp" id="ttE" onclick="setType('expense')">🔴 Расход</div>
         <div class="ttab" id="ttI" onclick="setType('income')">🟢 Доход</div>
+        <div class="ttab" id="ttT" onclick="setType('transfer')">⇄ Перевод</div>
       </div>
       <input class="amti" type="number" id="amtIn" placeholder="0" inputmode="decimal">
       <div class="cur-row">
@@ -194,12 +196,22 @@ body{font-family:-apple-system,BlinkMacSystemFont,sans-serif;background:var(--bg
         <input class="rateinp" type="number" id="rateIn" placeholder="курс">
         <span style="font-size:14px;color:var(--muted)">грн</span>
       </div>
-      <div class="fsec">Категория</div>
-      <div class="catl" id="catEl"></div>
-      <div class="fsec">Счёт</div>
-      <div class="accl" id="accEl"></div>
-      <input class="cominp" type="text" id="comIn" placeholder="Комментарий (необязательно)">
-      <button class="savebtn" onclick="saveTx()">Сохранить</button>
+      <div id="regularForm">
+        <div class="fsec">Категория</div>
+        <div class="catl" id="catEl"></div>
+        <div class="fsec">Счёт</div>
+        <div class="accl" id="accEl"></div>
+        <input class="cominp" type="text" id="comIn" placeholder="Комментарий (необязательно)">
+        <button class="savebtn" onclick="saveTx()">Сохранить</button>
+      </div>
+      <div id="transferForm" style="display:none">
+        <div class="fsec">Откуда</div>
+        <div class="accl" id="trFromEl"></div>
+        <div class="fsec">Куда</div>
+        <div class="accl" id="trToEl"></div>
+        <input class="cominp" type="text" id="trComIn" placeholder="Комментарий (необязательно)">
+        <button class="savebtn" style="background:var(--purple)" onclick="saveTransfer()">Перевести</button>
+      </div>
     </div>
   </div>
 </div>
@@ -404,7 +416,17 @@ function setType(t) {
   txType=t;
   document.getElementById('ttE').className='ttab'+(t==='expense'?' exp':'');
   document.getElementById('ttI').className='ttab'+(t==='income'?' inc':'');
-  loadAdd();
+  document.getElementById('ttT').className='ttab'+(t==='transfer'?' tr':'');
+  if (t==='transfer') {
+    document.getElementById('regularForm').style.display='none';
+    document.getElementById('transferForm').style.display='block';
+    document.getElementById('amtIn').value='';
+    loadTransferAccs();
+  } else {
+    document.getElementById('regularForm').style.display='block';
+    document.getElementById('transferForm').style.display='none';
+    loadAdd();
+  }
 }
 function setCur(el,cur) {
   document.querySelectorAll('.cb').forEach(function(b){ b.classList.remove('on'); });
@@ -1004,6 +1026,76 @@ function confirmDeduct(goalId,goalName,curAmt,deficit) {
       sb.from('transactions').insert({type:'savings_out',amount:toDeduct,account_id:card.id,savings_goal_id:goalId,comment:'Покрытие дефицита из: '+goalName})
     ]);
   }).then(function(){ toast('✅ '+fmt(toDeduct)+' списано из '+goalName); loadSav(); });
+}
+
+// ── TRANSFER ────────────────────────────────────────────
+var trFrom = null;
+var trTo = null;
+
+function loadTransferAccs() {
+  trFrom = null; trTo = null;
+  var r2 = monthRange(new Date());
+  Promise.all([
+    sb.from('accounts').select('*').order('id'),
+    sb.from('transactions').select('type,amount,account_id')
+      .gte('created_at',r2.from).lte('created_at',r2.to)
+      .in('type',['income','expense'])
+  ]).then(function(res) {
+    var accs = res[0].data || [];
+    var mths = res[1].data || [];
+    var accBal = {};
+    mths.forEach(function(t) {
+      if (!accBal[t.account_id]) accBal[t.account_id] = 0;
+      accBal[t.account_id] += t.type==='income' ? Number(t.amount) : -Number(t.amount);
+    });
+    function makeList(elId, pickFn) {
+      var h = '';
+      accs.forEach(function(a) {
+        var mb = accBal[a.id] || 0;
+        var col = mb >= 0 ? 'var(--muted)' : 'var(--red)';
+        h += '<div class="accr" data-id="'+a.id+'" data-nm="'+a.name+'" onclick="'+pickFn+'(this)">'+
+          '<div style="font-size:22px">'+a.emoji+'</div>'+
+          '<div class="accri"><div class="accrnm">'+a.name+'</div>'+
+          '<div class="accrsb" style="color:'+col+'">'+(mb>=0?'+':'')+fmt(mb)+' за месяц</div></div>'+
+          '<i class="ti ti-circle-check accrchk"></i></div>';
+      });
+      document.getElementById(elId).innerHTML = h;
+    }
+    makeList('trFromEl', 'pickTrFrom');
+    makeList('trToEl', 'pickTrTo');
+  });
+}
+
+function pickTrFrom(el) {
+  document.querySelectorAll('#trFromEl .accr').forEach(function(r){ r.classList.remove('on'); });
+  el.classList.add('on');
+  trFrom = {id: parseInt(el.dataset.id), name: el.dataset.nm};
+}
+
+function pickTrTo(el) {
+  document.querySelectorAll('#trToEl .accr').forEach(function(r){ r.classList.remove('on'); });
+  el.classList.add('on');
+  trTo = {id: parseInt(el.dataset.id), name: el.dataset.nm};
+}
+
+function saveTransfer() {
+  var amt = parseFloat(document.getElementById('amtIn').value);
+  if (!amt || amt <= 0) { toast('⚠️ Введи сумму'); return; }
+  if (!trFrom) { toast('⚠️ Выбери счёт откуда'); return; }
+  if (!trTo) { toast('⚠️ Выбери счёт куда'); return; }
+  if (trFrom.id === trTo.id) { toast('⚠️ Счета должны быть разными'); return; }
+  var com = document.getElementById('trComIn').value || '';
+  var comment = trFrom.name + ' → ' + trTo.name + (com ? ' · ' + com : '');
+  Promise.all([
+    sb.from('transactions').insert({type:'transfer_out', amount:amt, account_id:trFrom.id, comment:comment}),
+    sb.from('transactions').insert({type:'transfer_in',  amount:amt, account_id:trTo.id,   comment:comment})
+  ]).then(function() {
+    toast('✅ ' + fmt(amt) + ' · ' + trFrom.name + ' → ' + trTo.name);
+    document.getElementById('amtIn').value = '';
+    document.getElementById('trComIn').value = '';
+    trFrom = null; trTo = null;
+    loadTransferAccs();
+  });
 }
 
 if (checkAuth()) loadHome();
