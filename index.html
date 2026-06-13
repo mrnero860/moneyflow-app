@@ -305,18 +305,18 @@ function loadHome() {
   Promise.all([
     sb.from('accounts').select('*').order('id'),
     sb.from('transactions').select('*,categories(name,emoji),accounts(name,emoji)').order('created_at',{ascending:false}).limit(15),
-    sb.from('transactions').select('type,amount,account_id').gte('created_at',r.from).lte('created_at',r.to).in('type',['income','expense'])
+    sb.from('transactions').select('type,amount,account_id').gte('created_at',r.from).lte('created_at',r.to).in('type',['income','expense','transfer_in','transfer_out'])
   ]).then(function(res){
     var accs=res[0].data||[], txs=res[1].data||[], mths=res[2].data||[];
     var inc=mths.filter(function(t){ return t.type==='income'; }).reduce(function(s,t){ return s+Number(t.amount); },0);
     var exp=mths.filter(function(t){ return t.type==='expense'; }).reduce(function(s,t){ return s+Number(t.amount); },0);
-    var bal=inc-exp; // баланс = итог текущего месяца
+    var bal=inc-exp; // итог месяца без переводов
 
-    // Считаем баланс каждого счёта только за текущий месяц
+    // Считаем баланс каждого счёта (доходы + входящие переводы - расходы - исходящие переводы)
     var accMonthBal = {};
     mths.forEach(function(t) {
       if (!accMonthBal[t.account_id]) accMonthBal[t.account_id] = 0;
-      if (t.type==='income') accMonthBal[t.account_id] += Number(t.amount);
+      if (t.type==='income' || t.type==='transfer_in') accMonthBal[t.account_id] += Number(t.amount);
       else accMonthBal[t.account_id] -= Number(t.amount);
     });
 
@@ -370,15 +370,16 @@ function loadAdd() {
     sb.from('accounts').select('*').order('id'),
     sb.from('transactions').select('type,amount,account_id')
       .gte('created_at',r2.from).lte('created_at',r2.to)
-      .in('type',['income','expense'])
+      .in('type',['income','expense','transfer_in','transfer_out'])
   ]).then(function(res){
     var cats=res[0].data||[], accs=res[1].data||[], mths=res[2].data||[];
 
-    // Считаем месячный баланс по каждому счёту
+    // Считаем месячный баланс по каждому счёту (включая переводы)
     var accBal = {};
     mths.forEach(function(t) {
       if (!accBal[t.account_id]) accBal[t.account_id] = 0;
-      accBal[t.account_id] += t.type==='income' ? Number(t.amount) : -Number(t.amount);
+      if (t.type==='income' || t.type==='transfer_in') accBal[t.account_id] += Number(t.amount);
+      else accBal[t.account_id] -= Number(t.amount);
     });
 
     var ch='';
@@ -1039,14 +1040,15 @@ function loadTransferAccs() {
     sb.from('accounts').select('*').order('id'),
     sb.from('transactions').select('type,amount,account_id')
       .gte('created_at',r2.from).lte('created_at',r2.to)
-      .in('type',['income','expense'])
+      .in('type',['income','expense','transfer_in','transfer_out'])
   ]).then(function(res) {
     var accs = res[0].data || [];
     var mths = res[1].data || [];
     var accBal = {};
     mths.forEach(function(t) {
       if (!accBal[t.account_id]) accBal[t.account_id] = 0;
-      accBal[t.account_id] += t.type==='income' ? Number(t.amount) : -Number(t.amount);
+      if (t.type==='income' || t.type==='transfer_in') accBal[t.account_id] += Number(t.amount);
+      else accBal[t.account_id] -= Number(t.amount);
     });
     function makeList(elId, pickFn) {
       var h = '';
